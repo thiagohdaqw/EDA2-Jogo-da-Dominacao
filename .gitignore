@@ -58,3 +58,5 @@ dkms.conf
 !/test.py
 **/test.sh
 !/test.sh
+tmp
+*.tmp
