@@ -4,6 +4,8 @@
 - Usar fila de prioridade com resizing array
   - dobrar a capacidade quando tamanho+1 == capacidade
   - reduzir a capacidade à metade quando tamanho/4 == capacidade
+
+- Usar google sheets pra visualisar os mapas
 */
 
 int main() {
