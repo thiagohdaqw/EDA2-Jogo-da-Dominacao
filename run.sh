@@ -11,7 +11,7 @@ if [ ! -e "$MENSAGENS" ]; then
 fi
 
 gcc -o "$BIN_PATH/arbitro" arbitro.c -g
-gcc -o "$BIN_PATH/domination" domination.c -DDEBUG=1 -g
+gcc -o "$BIN_PATH/jogador" jogador.c -DDEBUG=1 -g
 
-$BIN_PATH/arbitro $ARB_ARGS < $MENSAGENS | $BIN_PATH/domination > $MENSAGENS
-#$BIN_PATH/arbitro $ARB_ARGS < $MENSAGENS | valgrind $BIN_PATH/domination > $MENSAGENS
+$BIN_PATH/arbitro $ARB_ARGS < $MENSAGENS | $BIN_PATH/jogador > $MENSAGENS
+#$BIN_PATH/arbitro $ARB_ARGS < $MENSAGENS | valgrind $BIN_PATH/jogador > $MENSAGENS
