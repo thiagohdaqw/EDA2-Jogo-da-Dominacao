@@ -91,8 +91,9 @@ coord_t *map_pegar(int index)
 
 struct pq_ist
 {
-  int *pq;
   int N;
+  int capacity;
+  int *pq;
   int *qp;
 };
 
@@ -143,6 +144,7 @@ int PQempty(struct pq_ist *PQ)
 void PQinit(struct pq_ist *PQ, int MAX)
 {
   PQ->N = 0;
+  PQ->capacity = MAX;
   PQ->pq = malloc(sizeof(int) * (MAX + 1));
   PQ->qp = malloc(sizeof(int) * (MAX + 1));
 }
@@ -167,13 +169,23 @@ void PQchange(struct pq_ist *PQ, int K)
   fixDown(PQ, PQ->qp[K], PQ->N);
 }
 
+int PQmin(struct pq_ist *PQ) {
+  int* v = PQ->pq;
+  if (less(v[PQ->N-1], v[PQ->N]))
+    return PQ->N-1;
+  return PQ->N;
+}
+
+int PQfull(struct pq_ist *PQ) {
+  return PQ->N >= PQ->capacity;
+}
+
 void PQprint(struct pq_ist *PQ)
 {
-  LOG("-- ");
-  for (size_t i = 0; i < PQ->N; i++)
+  for (size_t i = 1; i < PQ->N; i++)
   {
     coord_t c = map[PQ->pq[i]];
-    LOG("(%3d, %3d) -> %d, ", c.x, c.y, c.pontos);
+    LOG("(%d, %d) -> %d, ", c.x, c.y, c.pontos);
   }
   LOG("\n");
 }
@@ -225,6 +237,7 @@ coord_t *dominar()
 
 void ler_resposta_do_juiz(int qtd_sondagem, coord_t *dominado)
 {
+  int min_index = 0, sondado_index = 0;
   coord_t sondado = {0, 0, 0, SONDADO};
   static char str[100];
 
@@ -234,8 +247,16 @@ void ler_resposta_do_juiz(int qtd_sondagem, coord_t *dominado)
     scanf("%s %d %d %d", str, &sondado.x, &sondado.y, &sondado.pontos);
     if (sondado.pontos > 0)
     {
+      sondado_index = hash(sondado);
       map_inserir(sondado);
-      PQinsert(&sondados, hash(sondado));
+      min_index = PQmin(&sondados);
+
+      if (PQfull(&sondados))
+        if (less(sondado_index, min_index)) {
+          LOG("pulou \n");
+          continue;
+        }
+      PQinsert(&sondados, sondado_index);
     }
     LOG(">> %s %d %d %d\n", str, sondado.x, sondado.y, sondado.pontos);
   }
@@ -298,5 +319,8 @@ void print_relatorio_turno(int turno, int qtd_sondagem, int dominou)
   LOG("-- qtd sondagem %d\n", qtd_sondagem);
   LOG("-- dominou %d\n", dominou);
   LOG("-- qtd jogadores: %d\n", qtd_jogadores);
-  LOG("-- pontos até agora: %d\n\n", total_pontos);
+  LOG("-- pontos até agora: %d\n", total_pontos);
+  LOG("-- PQ: ");
+  PQprint(&sondados);
+  LOG("\n\n");
 }
