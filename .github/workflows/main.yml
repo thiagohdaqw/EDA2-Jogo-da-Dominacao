@@ -3,7 +3,7 @@ name: ci
 on:
   push:
     branches:
-      - ci_test-1
+      - ci-test-1
 jobs:
   test:
     runs-on: ubuntu-latest
