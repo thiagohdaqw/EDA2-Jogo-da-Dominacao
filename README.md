@@ -16,7 +16,7 @@ Por exemplo:
     ./run.sh 777 5 5 8
 
 
-# Teste
+## Teste
 
     ./run.sh 777 5 5 8 2>&1 >/dev/null | grep "final: "
 

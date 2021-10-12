@@ -1,11 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define LOG(x, args...)         \
-  {                             \
-    fprintf(stderr, x, ##args); \
-    fflush(stderr);             \
-  }
 #define PRINT(x, args...) \
   {                       \
     printf(x, ##args);    \
@@ -13,8 +8,16 @@
   }
 
 #ifndef DEBUG
-#define DEBUG 0
+  #define LOG(x, args...) {}
+  #define DEBUG 0
+#else
+  #define LOG(x, args...)         \
+    {                             \
+      fprintf(stderr, x, ##args); \
+      fflush(stderr);             \
+    }
 #endif
+
 void print_relatorio_turno(int turno, int qtd_sondagem, int dominou);
 
 // Coordenadas
@@ -288,6 +291,13 @@ void inicializa_sondados()
   PQinit(&sondados, 1000);
 }
 
+int calc_total_pontos() {
+  int total_pontos = 0;
+  for (int i = 0; i < qtd_jogadores; ++i)
+    total_pontos += jogadores[i]->pontos;
+  return total_pontos;
+}
+
 int main()
 {
   coord_t jogador_inicial = {0, 0, 0, DOMINADO};
@@ -310,6 +320,8 @@ int main()
       print_relatorio_turno(turno + 1, qtd_sondagem, !coord_eh_null_item(dominado));
   }
 
+  LOG(">> pontuação final: %d\n", calc_total_pontos());
+
   free(jogadores);
   free(sondados.pq);
   free(sondados.qp);
@@ -319,9 +331,7 @@ int main()
 // Outros
 void print_relatorio_turno(int turno, int qtd_sondagem, int dominou)
 {
-  int total_pontos = 0;
-  for (int i = 0; i < qtd_jogadores; ++i)
-    total_pontos += jogadores[i]->pontos;
+  int total_pontos = calc_total_pontos();
   LOG("-- turno %d\n", turno);
   LOG("-- qtd sondagem %d\n", qtd_sondagem);
   LOG("-- dominou %d\n", dominou);

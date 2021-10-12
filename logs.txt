@@ -1,0 +1,104 @@
+
+[2021-10-12 13:36:26]
+test case 777 5 5 8 | pontos: 1322
+test case 1234 -100 -100 8 | pontos: 1691
+
+[2021-10-12 13:36:44]
+test case 777 5 5 8 | pontos: 1322
+test case 1234 -100 -100 8 | pontos: 1691
+
+[2021-10-12 13:42:07]
+test case 777 5 5 8 | pontos: 
+test case 1234 -100 -100 8 | pontos: 
+
+[2021-10-12 13:45:17]
+test case 777 5 5 8 | pontos: 
+test case 1234 -100 -100 8 | pontos: 
+
+[2021-10-12 13:45:48]
+test case 777 5 5 8 | pontos: 
+test case 1234 -100 -100 8 | pontos: 
+
+[2021-10-12 13:46:09]
+test case 777 5 5 8 | pontos: 
+test case 1234 -100 -100 8 | pontos: 
+
+[2021-10-12 13:48:38]
+test case 777 5 5 8 | pontos:  | tempo: 
+test case 1234 -100 -100 8 | pontos:  | tempo: 
+
+[2021-10-12 13:51:16]
+test case 777 5 5 8 | pontos: 1322 | tempo: 
+test case 1234 -100 -100 8 | pontos: 1691 | tempo: 
+
+[2021-10-12 13:51:36]
+test case 777 5 5 8 | pontos: 1322 | tempo: 
+test case 1234 -100 -100 8 | pontos: 1691 | tempo: 
+
+[2021-10-12 13:51:46]
+test case 777 5 5 8 | pontos:  | tempo: tuação fi
+test case 1234 -100 -100 8 | pontos:  | tempo: tuação fi
+
+[2021-10-12 13:52:02]
+test case 777 5 5 8 | pontos:  | tempo: tuação fi
+test case 1234 -100 -100 8 | pontos:  | tempo: tuação fi
+
+[2021-10-12 13:52:14]
+test case 777 5 5 8 | pontos:  | tempo: tuação fi
+test case 1234 -100 -100 8 | pontos:  | tempo: tuação fi
+
+[2021-10-12 13:52:21]
+test case 777 5 5 8 | pontos: 1322 | tempo: 
+test case 1234 -100 -100 8 | pontos: 1691 | tempo: 
+
+[2021-10-12 13:52:49]
+test case 777 5 5 8 | pontos: 1322 | tempo: >> pontuação final: 1322 0,007
+test case 1234 -100 -100 8 | pontos: 1691 | tempo: >> pontuação final: 1691 0,008
+
+[2021-10-12 13:53:53]
+test case 777 5 5 8 | pontos:  | tempo: 
+test case 1234 -100 -100 8 | pontos:  | tempo: 
+
+[2021-10-12 13:54:31]
+test case 777 5 5 8 | pontos:  | tempo: 
+test case 1234 -100 -100 8 | pontos:  | tempo: 
+
+[2021-10-12 13:56:19]
+test case 777 5 5 8 | pontos: 1322 | tempo: >> pontuação final: 1322 0,004
+test case 1234 -100 -100 8 | pontos: 1691 | tempo: >> pontuação final: 1691 0,008
+
+[2021-10-12 14:21:04]
+test case 777 5 5 8 | pontos: 1322 | tempo: 
+test case 1234 -100 -100 8 | pontos: 1691 | tempo: 
+
+[2021-10-12 14:21:10]
+test case 777 5 5 8 | pontos: 1322 | tempo: >> pontuação final: 1322 0,004
+test case 1234 -100 -100 8 | pontos: 1691 | tempo: >> pontuação final: 1691 0,008
+
+[2021-10-12 14:22:03]
+test case 777 5 5 8 | pontos: 0,004 | tempo: >> pontuação final: 1322 0,004
+test case 1234 -100 -100 8 | pontos: 0,004 | tempo: >> pontuação final: 1691 0,004
+
+[2021-10-12 14:22:24]
+test case 777 5 5 8 | pontos: 1322 | tempo: 1322
+test case 1234 -100 -100 8 | pontos: 1691 | tempo: 1691
+
+[2021-10-12 14:22:32]
+test case 777 5 5 8 | pontos: 1322 | tempo: 0,006
+test case 1234 -100 -100 8 | pontos: 1691 | tempo: 0,006
+
+[2021-10-12 14:22:38]
+test case 777 5 5 8 | pontos: 1322 | tempo: 0,005
+test case 1234 -100 -100 8 | pontos: 1691 | tempo: 0,007
+
+[2021-10-12 14:22:55]
+test case 777 5 5 8 | pontos: 1322 | tempo: 0,007
+test case 1234 -100 -100 8 | pontos: 1691 | tempo: 0,005
+
+[2021-10-12 14:23:06]
+test case 777 5 5 8 | pontos: 1322, tempo: 0,008
+test case 1234 -100 -100 8 | pontos: 1691, tempo: 0,004
+
+[2021-10-12 14:23:19]
+test case 777 5 5 8 | pontos: 1322, tempo: 0,004s
+test case 1234 -100 -100 8 | pontos: 1691, tempo: 0,006s
