@@ -15,7 +15,9 @@
 #ifndef DEBUG
 #define DEBUG 0
 #endif
+void print_relatorio_turno(int turno, int qtd_sondagem, int dominou);
 
+// Coordenadas
 typedef enum
 {
   NAO_SONDADO,
@@ -30,26 +32,31 @@ typedef struct coord_t
   Estado estado;
 } coord_t;
 
-static coord_t *jogadores;
+static coord_t **jogadores;
 static int qtd_jogadores = 0;
+static coord_t NULL_COORD = {0, 0, 0, NAO_SONDADO};
 
-void print_pontos(int turno, int qtd_sondagem, int dominou) {
-  int total_pontos = 0;
-  for (int i = 0; i < qtd_jogadores; ++i)
-    total_pontos += jogadores[i].pontos;
-  LOG("-- turno %d\n", turno);
-  LOG("-- qtd sondagem %d\n", qtd_sondagem);
-  LOG("-- dominou %d\n", dominou);
-  LOG("-- qtd jogadores: %d\n", qtd_jogadores);
-  LOG("-- pontos até agora: %d\n\n", total_pontos);
+void jogadores_inserir(coord_t *jogador){
+  jogadores[qtd_jogadores++] = jogador;
 }
+
+int coord_eh_igual(coord_t *a, coord_t *b)
+{
+  return a->x == b->x && a->y == b->y && a->estado == b->estado;
+}
+
+int coord_eh_null_item(coord_t *a)
+{
+  return coord_eh_igual(a, &NULL_COORD);
+}
+
+// Fim Coordenadas
 
 // Mapa - HashTable
 #define MAP_INITIAL_CAPACITY 997
 static int map_capacity = MAP_INITIAL_CAPACITY;
 static int map_size = 0;
 static coord_t map[MAP_INITIAL_CAPACITY] = {[0 ... MAP_INITIAL_CAPACITY - 1] = {0, 0, 0, NAO_SONDADO}};
-static coord_t NULL_ITEM = {0, 0, 0, NAO_SONDADO};
 
 int hash(coord_t item)
 {
@@ -61,20 +68,20 @@ int hash(coord_t item)
   return h;
 }
 
-void map_insert(coord_t item)
+void map_inserir(coord_t item)
 {
   map[hash(item)] = item;
   map_size++;
 }
 
-coord_t *map_search(coord_t item)
+coord_t *map_buscar(coord_t item)
 {
   return &map[hash(item)];
 }
 
-int coord_eh_null_item(coord_t item)
+coord_t *map_pegar(int index)
 {
-  return item.estado == NULL_ITEM.estado;
+  return &map[index];
 }
 
 // Fila de Prioridade baseada em indice
@@ -160,16 +167,20 @@ void PQchange(struct pq_ist *PQ, int K)
   fixDown(PQ, PQ->qp[K], PQ->N);
 }
 
-void PQprint(struct pq_ist *PQ) {
-  LOG(">> ");
-  for (size_t i = 0; i < PQ->N; i++) {
+void PQprint(struct pq_ist *PQ)
+{
+  LOG("-- ");
+  for (size_t i = 0; i < PQ->N; i++)
+  {
     coord_t c = map[PQ->pq[i]];
     LOG("(%3d, %3d) -> %d, ", c.x, c.y, c.pontos);
   }
   LOG("\n");
 }
 
-int fazer_sondagem()
+// Logica do Jogo
+
+int sondar()
 {
   coord_t *jog;
   coord_t coord_atual;
@@ -178,15 +189,16 @@ int fazer_sondagem()
 
   for (int i = 0; i < qtd_jogadores && qtd_sondagem < sondagem_max; ++i)
   {
-    jog = &jogadores[i];
+    jog = jogadores[i];
     achou = 0;
 
-    for (coord_atual.x = jog->x - 1; coord_atual.x <= jog->x + 1 && !achou; coord_atual.x++) {
+    for (coord_atual.x = jog->x - 1; coord_atual.x <= jog->x + 1 && !achou; coord_atual.x++)
+    {
       for (coord_atual.y = jog->y - 1; coord_atual.y <= jog->y + 1 && !achou; coord_atual.y++)
         if (!(coord_atual.x == jog->x && coord_atual.y == jog->y))
         {
-          coord_pesquisada = map_search(coord_atual);
-          if (coord_eh_null_item(*coord_pesquisada))
+          coord_pesquisada = map_buscar(coord_atual);
+          if (coord_eh_null_item(coord_pesquisada))
           {
             PRINT("sondagem %d %d", coord_atual.x, coord_atual.y);
             coord_pesquisada->estado = SONDADO;
@@ -195,24 +207,23 @@ int fazer_sondagem()
           }
         }
     }
-
   }
 
   return qtd_sondagem;
 }
 
-coord_t fazer_dominacao()
+coord_t *dominar()
 {
-  if(!PQempty(&sondados)){
-    coord_t *c = &map[PQdelMax(&sondados)];
-    PRINT("dominacao %d %d", c->x, c->y);
-    c->estado = DOMINADO;
-    return *c;
-  }
-  return NULL_ITEM;
+  if (PQempty(&sondados))
+    return &NULL_COORD;
+  coord_t *dominado = map_pegar(PQdelMax(&sondados));
+  dominado->estado = DOMINADO;
+  jogadores_inserir(dominado);
+  PRINT("dominacao %d %d", dominado->x, dominado->y);
+  return dominado;
 }
 
-void ler_resposta_do_juiz(int qtd_sondagem, coord_t dominado)
+void ler_resposta_do_juiz(int qtd_sondagem, coord_t *dominado)
 {
   coord_t sondado = {0, 0, 0, SONDADO};
   static char str[100];
@@ -221,62 +232,71 @@ void ler_resposta_do_juiz(int qtd_sondagem, coord_t dominado)
   for (int j = 0; j < qtd_sondagem; j++)
   {
     scanf("%s %d %d %d", str, &sondado.x, &sondado.y, &sondado.pontos);
-    if(sondado.pontos > 0){
-      map[hash(sondado)] = sondado;
+    if (sondado.pontos > 0)
+    {
+      map_inserir(sondado);
       PQinsert(&sondados, hash(sondado));
     }
     LOG(">> %s %d %d %d\n", str, sondado.x, sondado.y, sondado.pontos);
   }
 
   // ler info da dominação
-  if(!coord_eh_null_item(dominado)){
+  if (!coord_eh_null_item(dominado))
+  {
     scanf("%*s %*d");
-    jogadores[qtd_jogadores++] = dominado;
-    LOG("> dominacao %d %d %d\n", dominado.x, dominado.y, dominado.pontos);
+    LOG("> dominacao %d %d %d\n", dominado->x, dominado->y, dominado->pontos);
   }
 }
 
-void inicializa_jogadores(coord_t jogador_inicial, int limite_turnos)
+void inicializa_jogadores(coord_t *jogador_inicial, int limite_turnos)
 {
-  jogadores = malloc((limite_turnos + 2) * sizeof(coord_t));
-  jogadores[0] = jogador_inicial;
-  qtd_jogadores++;
-  map[hash(jogador_inicial)] = jogador_inicial;
+  jogadores = malloc((limite_turnos + 2) * sizeof(coord_t *));
+  map_inserir(*jogador_inicial);
+  jogadores_inserir(jogador_inicial);
 }
 
-void inicializa_sondados(){
+void inicializa_sondados()
+{
   PQinit(&sondados, 1000);
 }
 
 int main()
 {
   coord_t jogador_inicial = {0, 0, 0, DOMINADO};
-  coord_t dominado = NULL_ITEM;
+  coord_t *dominado = &NULL_COORD;
   int limite_de_turnos, dominou = 0, qtd_sondagem;
 
   scanf("%d %d %d %d", &jogador_inicial.x, &jogador_inicial.y,
         &jogador_inicial.pontos, &limite_de_turnos);
 
-  inicializa_jogadores(jogador_inicial, limite_de_turnos);
+  inicializa_jogadores(&jogador_inicial, limite_de_turnos);
   inicializa_sondados();
 
   for (int turno = 0; turno < limite_de_turnos; turno++)
   {
-    qtd_sondagem = fazer_sondagem();
-    dominado = fazer_dominacao();
+    qtd_sondagem = sondar();
+    dominado = dominar();
     PRINT("fimturno\n");
     ler_resposta_do_juiz(qtd_sondagem, dominado);
-    if(DEBUG)
-      print_pontos(turno+1, qtd_sondagem, !coord_eh_null_item(dominado));
+    if (DEBUG)
+      print_relatorio_turno(turno + 1, qtd_sondagem, !coord_eh_null_item(dominado));
   }
 
   free(jogadores);
+  free(sondados.pq);
+  free(sondados.qp);
   return 0;
 }
-/*
-==Entorno inicial
-<<   90   19   13 
-<<  116  115  197 
-<<   39  110  210 
 
-*/
+// Outros
+void print_relatorio_turno(int turno, int qtd_sondagem, int dominou)
+{
+  int total_pontos = 0;
+  for (int i = 0; i < qtd_jogadores; ++i)
+    total_pontos += jogadores[i]->pontos;
+  LOG("-- turno %d\n", turno);
+  LOG("-- qtd sondagem %d\n", qtd_sondagem);
+  LOG("-- dominou %d\n", dominou);
+  LOG("-- qtd jogadores: %d\n", qtd_jogadores);
+  LOG("-- pontos até agora: %d\n\n", total_pontos);
+}
