@@ -36,7 +36,8 @@ static coord_t **jogadores;
 static int qtd_jogadores = 0;
 static coord_t NULL_COORD = {0, 0, 0, NAO_SONDADO};
 
-void jogadores_inserir(coord_t *jogador){
+void jogadores_inserir(coord_t *jogador)
+{
   jogadores[qtd_jogadores++] = jogador;
 }
 
@@ -58,13 +59,19 @@ static int map_capacity = MAP_INITIAL_CAPACITY;
 static int map_size = 0;
 static coord_t map[MAP_INITIAL_CAPACITY] = {[0 ... MAP_INITIAL_CAPACITY - 1] = {0, 0, 0, NAO_SONDADO}};
 
+int gen_hash(int *a, int b, int h, int valor)
+{
+  *a = *a * b % (map_capacity - 1);
+  return (*a * h + valor) % map_capacity;
+}
+
 int hash(coord_t item)
 {
   int a = 31415, b = 27183, h = 0;
-  a = a * b % (map_capacity - 1);
-  h = (a * h + item.x) % map_capacity;
-  a = a * b % (map_capacity - 1);
-  h = (a * h + item.y) % map_capacity;
+  h = gen_hash(&a, b, h, item.x < 0);
+  h = gen_hash(&a, b, h, item.y < 0);
+  h = gen_hash(&a, b, h, item.x);
+  h = gen_hash(&a, b, h, item.y);
   return h;
 }
 
