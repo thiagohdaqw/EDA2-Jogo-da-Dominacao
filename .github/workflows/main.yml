@@ -1,0 +1,27 @@
+
+name: ci
+on:
+  push:
+    branches:
+      - ci_test-1
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Make sh executable'
+        run: |
+          chmod +x run.sh
+          chmod +x build.sh
+          chmod +x test.sh
+      - name: 'execute tests'
+        run: ./test.sh ci_logs.txt
+      - name: 'Commit tests'
+        uses: EndBug/add-and-commit@v7
+        with:
+          add: 'ci_logs.txt'
+          author_name: Github Ci
+          author_email: ${{secrets.CI_EMAIL}}
+          message: 'Auto test'
+          branch: 'logs'
+          signoff: true
