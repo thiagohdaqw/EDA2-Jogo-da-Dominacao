@@ -10,7 +10,7 @@ if [ ! -e "$MENSAGENS" ]; then
 	mkfifo $MENSAGENS;
 fi
 
-gcc -o "$BIN_PATH/arbitro" arbitro.c -g
+gcc -o "$BIN_PATH/arbitro" arbitro.c -g -lm
 gcc -o "$BIN_PATH/jogador" jogador.c -DDEBUG=1 -g
 
 $BIN_PATH/arbitro $ARB_ARGS < $MENSAGENS | $BIN_PATH/jogador > $MENSAGENS

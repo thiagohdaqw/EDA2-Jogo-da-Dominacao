@@ -1,22 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define LOG(x, args...) {fprintf(stderr, x, ##args); fflush(stderr);}
 #define PRINT(x, args...) {printf(x, ##args); fflush(stdout);}
-static int mapa[1000][1000];
+#ifndef PTS_RANGE
+#define PTS_RANGE 300
+#endif
 
-void imprime_entorno(int L, int C)
-{
-    for (int i = L - 1; i <= L + 1; i++)
-    {   
+//static int mapa[1000][1000];
 
-        LOG("<< ");
-        for (int j = C - 1; j <= C + 1; j++)
-        {
-            LOG(" %3d ", mapa[i][j]);
-        }
-        LOG("\n");
-    }
+// void imprime_entorno(int L, int C)
+// {
+//     for (int i = L - 1; i <= L + 1; i++)
+//     {   
+
+//         LOG("<< ");
+//         for (int j = C - 1; j <= C + 1; j++)
+//         {
+//             LOG(" %3d ", mapa[i][j]);
+//         }
+//         LOG("\n");
+//     }
+// }
+
+int gera_pontos(){
+    int sinal = (int) pow(-1, rand()%2);
+    return sinal * (rand()%PTS_RANGE);
 }
 
 int main(int argc, char **argv)
@@ -28,18 +38,18 @@ int main(int argc, char **argv)
     Ci = atoi(argv[3]);
     Turno = atoi(argv[4]);
 
-    for (int i = 0; i < 1000; i++)
-        for (int j = 0; j < 1000; j++)
-            mapa[i][j] = rand() % 300;
+    // for (int i = 0; i < 1000; i++)
+    //     for (int j = 0; j < 1000; j++)
+    //         mapa[i][j] = rand() % 300;
 
-    LOG("==Entorno inicial\n");
-    imprime_entorno(Li, Ci);
-    LOG("\n");
+    // LOG("==Entorno inicial\n");
+    // imprime_entorno(Li, Ci);
+    // LOG("\n");
 
     // Informacoes para o jogador vao na saida padrao
     // Informacoes recebidas pela entrada padrao
     // Informacoes de debug e acompanhamento via stderr
-    PRINT("%d %d %d %d\n", Li, Ci, mapa[Li][Ci], Turno);
+    PRINT("%d %d %d %d\n", Li, Ci, PTS_RANGE, Turno);
 
     for (int t = 0; t < Turno; t++)
     {
@@ -55,10 +65,10 @@ int main(int argc, char **argv)
             //LOG("=== %s %d %d %d\n", buf, l, c, mapa[l][c]);
             fflush(stderr);
             if (buf[0] == 's'){
-                PRINT("sondagem %d %d %d\n", l, c, mapa[l][c]);
+                PRINT("sondagem %d %d %d\n", l, c, gera_pontos());
             }   
             else
-                PRINT("dominacao %d\n", mapa[l][c]);
+                PRINT("dominacao %d\n", 0);
         }
     }
     return 0;
