@@ -1,3 +1,6 @@
  [2021-10-13 00:25:05]
 test case 777 5 5 8 | pontos: 1322, tempo: 0.006s
 test case 1234 -100 -100 8 | pontos: 1691, tempo: 0.004s
+ [2021-10-13 00:31:35]
+test case 777 5 5 8 | pontos: 1322, tempo: 0.004s
+test case 1234 -100 -100 8 | pontos: 1691, tempo: 0.003s
