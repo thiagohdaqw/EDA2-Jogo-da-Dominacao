@@ -114,3 +114,9 @@ test case 1234 -100 -100 8 | pontos: 1691, tempo: 0,004s
 [2021-10-14 15:46:06]
 test case 777 5 5 8 | pontos: 1322, tempo:  0,004s, colisao: 32
 test case 1234 -100 -100 8 | pontos: 1691, tempo:  0,003s, colisao: 38
+
+[2021-10-14 18:21:50]
+test case 777 5 5 8 | pontos: 1322, tempo:  0,003s, colisao: 32
+test case 1234 -100 -100 8 | pontos: 1691, tempo:  0,003s, colisao: 38
+test case 666 -100 -100 100 | pontos: 20254, tempo:  0,014s, colisao: 531
+test case 666 200 200 150 | pontos: 30750, tempo:  0,030s, colisao: 1495
