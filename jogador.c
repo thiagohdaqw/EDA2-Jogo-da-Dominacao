@@ -375,8 +375,10 @@ int main()
       print_relatorio_turno(turno + 1, qtd_sondagem, !coord_eh_null(dominado));
   }
 
-  LOG(">> Quantidade colisoes: %d\n", qtd_colisao);
-  LOG(">> pontuação final: %d\n", calc_total_pontos());
+  LOG("== Relatorio Final |")
+  LOG("pontuação: %d |", calc_total_pontos());
+  LOG("Quantidade colisoes: %d |", qtd_colisao);
+  LOG("\n");
 
   free(jogadores);
   free(sondados.pq);
