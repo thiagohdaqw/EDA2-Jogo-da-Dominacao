@@ -8,14 +8,21 @@
   }
 
 #ifndef DEBUG
-  #define LOG(x, args...) {}
-  #define DEBUG 0
+#define LOG(x, args...) \
+  {                     \
+  }
+#define LOG_COLISAO() \
+  {                   \
+  }
+#define DEBUG 0
 #else
-  #define LOG(x, args...)         \
-    {                             \
-      fprintf(stderr, x, ##args); \
-      fflush(stderr);             \
-    }
+int qtd_colisao = 0;
+#define LOG_COLISAO() (qtd_colisao++)
+#define LOG(x, args...)         \
+  {                             \
+    fprintf(stderr, x, ##args); \
+    fflush(stderr);             \
+  }
 #endif
 
 void print_relatorio_turno(int turno, int qtd_sondagem, int dominou);
@@ -38,6 +45,7 @@ typedef struct coord_t
 static coord_t **jogadores;
 static int qtd_jogadores = 0;
 static coord_t NULL_COORD = {0, 0, 0, NAO_SONDADO};
+#define NULL_COORD_INDICE -1
 
 void jogadores_inserir(coord_t *jogador)
 {
@@ -46,12 +54,12 @@ void jogadores_inserir(coord_t *jogador)
 
 int coord_eh_igual(coord_t *a, coord_t *b)
 {
-  return a->x == b->x && a->y == b->y && a->estado == b->estado;
+  return a->x == b->x && a->y == b->y;
 }
 
-int coord_eh_null_item(coord_t *a)
+int coord_eh_null(coord_t *a)
 {
-  return coord_eh_igual(a, &NULL_COORD);
+  return a->estado == NULL_COORD.estado;
 }
 
 // Fim Coordenadas
@@ -61,6 +69,7 @@ int coord_eh_null_item(coord_t *a)
 static int map_capacity = MAP_INITIAL_CAPACITY;
 static int map_size = 0;
 static coord_t map[MAP_INITIAL_CAPACITY] = {[0 ... MAP_INITIAL_CAPACITY - 1] = {0, 0, 0, NAO_SONDADO}};
+static int colisao_max = 50;
 
 int gen_hash(int *a, int b, int h, int valor)
 {
@@ -68,7 +77,7 @@ int gen_hash(int *a, int b, int h, int valor)
   return (*a * h + valor) % map_capacity;
 }
 
-int hash(coord_t item)
+int hashone(coord_t item)
 {
   int a = 31415, b = 27183, h = 0;
   h = gen_hash(&a, b, h, item.x < 0);
@@ -78,20 +87,62 @@ int hash(coord_t item)
   return h;
 }
 
-void map_inserir(coord_t item)
+int hashtwo(int h)
 {
-  map[hash(item)] = item;
+  return (16161 * (unsigned)h) % map_capacity;
+}
+
+int hash(int h1, int h2, int i)
+{
+  return (h1 + i * h2) % map_capacity;
+}
+
+coord_t *map_obter(int indice)
+{
+  return &map[indice];
+}
+
+int map_obter_indice_livre(coord_t item, int *indice)
+{
+  int h = hashone(item);
+  int h2 = hashtwo(h);
+  int colisao;
+  for (colisao = 0; colisao < colisao_max; colisao++)
+  {
+    *indice = hash(h, h2, colisao);
+    if (coord_eh_null(map_obter(*indice)))
+      return 1;
+    LOG_COLISAO();
+  }
+  // expand
+  //return map_obter_indice_livre(item);
+  return 0;
+}
+
+int map_inserir(coord_t item)
+{
+  int indice = 0;
+  if (!map_obter_indice_livre(item, &indice))
+    return NULL_COORD_INDICE;
+
+  map[indice] = item;
   map_size++;
+  return indice;
 }
 
 coord_t *map_buscar(coord_t item)
 {
-  return &map[hash(item)];
-}
+  int h = hashone(item);
+  int h2 = hashtwo(h);
+  int colisao, indice;
 
-coord_t *map_pegar(int index)
-{
-  return &map[index];
+  for (colisao = 0; colisao < colisao_max; colisao++)
+  {
+    indice = hash(h, h2, colisao);
+    if (coord_eh_null(map_obter(indice)) || coord_eh_igual(map_obter(indice), &item))
+      return map_obter(indice);
+  }
+  return &NULL_COORD;
 }
 
 // Fila de Prioridade baseada em indice
@@ -179,14 +230,16 @@ void PQchange(struct pq_ist *PQ, int K)
   fixDown(PQ, PQ->qp[K], PQ->N);
 }
 
-int PQmin(struct pq_ist *PQ) {
-  int* v = PQ->pq;
-  if (less(v[PQ->N-1], v[PQ->N]))
-    return PQ->N-1;
+int PQmin(struct pq_ist *PQ)
+{
+  int *v = PQ->pq;
+  if (less(v[PQ->N - 1], v[PQ->N]))
+    return PQ->N - 1;
   return PQ->N;
 }
 
-int PQfull(struct pq_ist *PQ) {
+int PQfull(struct pq_ist *PQ)
+{
   return PQ->N >= PQ->capacity;
 }
 
@@ -220,7 +273,7 @@ int sondar()
         if (!(coord_atual.x == jog->x && coord_atual.y == jog->y))
         {
           coord_pesquisada = map_buscar(coord_atual);
-          if (coord_eh_null_item(coord_pesquisada))
+          if (coord_eh_null(coord_pesquisada))
           {
             PRINT("sondagem %d %d", coord_atual.x, coord_atual.y);
             coord_pesquisada->estado = SONDADO;
@@ -238,41 +291,42 @@ coord_t *dominar()
 {
   if (PQempty(&sondados))
     return &NULL_COORD;
-  coord_t *dominado = map_pegar(PQdelMax(&sondados));
+  coord_t *dominado = map_obter(PQdelMax(&sondados));
   dominado->estado = DOMINADO;
   jogadores_inserir(dominado);
   PRINT("dominacao %d %d", dominado->x, dominado->y);
   return dominado;
 }
 
+static char str[100];
+
+void ler_sondagem()
+{
+  coord_t sondado = {0, 0, 0, SONDADO};
+  int min_indice = 0, indice = 0;
+
+  scanf("%s %d %d %d", str, &sondado.x, &sondado.y, &sondado.pontos);
+  LOG(">> %s %d %d %d\n", str, sondado.x, sondado.y, sondado.pontos);
+
+  indice = map_inserir(sondado);
+  if (sondado.pontos > 0)
+  {
+    min_indice = PQmin(&sondados);
+    if (PQfull(&sondados) && less(indice, min_indice))
+    {
+      LOG("pulou \n");
+      return;
+    }
+    PQinsert(&sondados, indice);
+  }
+}
+
 void ler_resposta_do_juiz(int qtd_sondagem, coord_t *dominado)
 {
-  int min_index = 0, sondado_index = 0;
-  coord_t sondado = {0, 0, 0, SONDADO};
-  static char str[100];
-
-  // ler sondagens
   for (int j = 0; j < qtd_sondagem; j++)
-  {
-    scanf("%s %d %d %d", str, &sondado.x, &sondado.y, &sondado.pontos);
-    if (sondado.pontos > 0)
-    {
-      sondado_index = hash(sondado);
-      map_inserir(sondado);
-      min_index = PQmin(&sondados);
+    ler_sondagem();
 
-      if (PQfull(&sondados))
-        if (less(sondado_index, min_index)) {
-          LOG("pulou \n");
-          continue;
-        }
-      PQinsert(&sondados, sondado_index);
-    }
-    LOG(">> %s %d %d %d\n", str, sondado.x, sondado.y, sondado.pontos);
-  }
-
-  // ler info da dominação
-  if (!coord_eh_null_item(dominado))
+  if (!coord_eh_null(dominado))
   {
     scanf("%*s %*d");
     LOG("> dominacao %d %d %d\n", dominado->x, dominado->y, dominado->pontos);
@@ -291,7 +345,8 @@ void inicializa_sondados()
   PQinit(&sondados, 1000);
 }
 
-int calc_total_pontos() {
+int calc_total_pontos()
+{
   int total_pontos = 0;
   for (int i = 0; i < qtd_jogadores; ++i)
     total_pontos += jogadores[i]->pontos;
@@ -317,9 +372,10 @@ int main()
     PRINT("fimturno\n");
     ler_resposta_do_juiz(qtd_sondagem, dominado);
     if (DEBUG)
-      print_relatorio_turno(turno + 1, qtd_sondagem, !coord_eh_null_item(dominado));
+      print_relatorio_turno(turno + 1, qtd_sondagem, !coord_eh_null(dominado));
   }
 
+  LOG(">> Quantidade colisoes: %d\n", qtd_colisao);
   LOG(">> pontuação final: %d\n", calc_total_pontos());
 
   free(jogadores);
@@ -331,6 +387,7 @@ int main()
 // Outros
 void print_relatorio_turno(int turno, int qtd_sondagem, int dominou)
 {
+  static int qtd_colisao_passada = 0;
   int total_pontos = calc_total_pontos();
   LOG("-- turno %d\n", turno);
   LOG("-- qtd sondagem %d\n", qtd_sondagem);
@@ -339,5 +396,7 @@ void print_relatorio_turno(int turno, int qtd_sondagem, int dominou)
   LOG("-- pontos até agora: %d\n", total_pontos);
   LOG("-- PQ: ");
   PQprint(&sondados);
+  LOG("-- Quantidade de colisao: %d", qtd_colisao - qtd_colisao_passada);
   LOG("\n\n");
+  qtd_colisao_passada = qtd_colisao;
 }
