@@ -32,7 +32,8 @@ typedef enum
 {
   NAO_SONDADO,
   SONDADO,
-  DOMINADO
+  DOMINADO,
+  PRESO
 } Estado;
 
 typedef struct coord_t
@@ -130,18 +131,20 @@ int map_inserir(coord_t item)
   return indice;
 }
 
-coord_t *map_buscar(coord_t item)
+coord_t *map_buscar(coord_t item, int *indice)
 {
   int h = hashone(item);
   int h2 = hashtwo(h);
-  int colisao, indice;
+  int colisao;
 
   for (colisao = 0; colisao < colisao_max; colisao++)
   {
-    indice = hash(h, h2, colisao);
-    if (coord_eh_null(map_obter(indice)) || coord_eh_igual(map_obter(indice), &item))
-      return map_obter(indice);
+    *indice = hash(h, h2, colisao);
+    if (coord_eh_null(map_obter(*indice)) || coord_eh_igual(map_obter(*indice), &item))
+      return map_obter(*indice);
+    LOG_COLISAO();
   }
+  // expand
   return &NULL_COORD;
 }
 
@@ -255,36 +258,73 @@ void PQprint(struct pq_ist *PQ)
 
 // Logica do Jogo
 
-int sondar()
+int sondar_coord(coord_t coord)
 {
-  coord_t *jog;
-  coord_t coord_atual;
-  coord_t *coord_pesquisada;
-  int qtd_sondagem = 0, achou = 0, sondagem_max = qtd_jogadores;
-
-  for (int i = 0; i < qtd_jogadores && qtd_sondagem < sondagem_max; ++i)
+  int indice = 0;
+  coord_t *pesquisado = map_buscar(coord, &indice);
+  if (coord_eh_null(pesquisado))
   {
-    jog = jogadores[i];
-    achou = 0;
+    PRINT("sondagem %d %d", coord.x, coord.y);
+    pesquisado->x = coord.x;
+    pesquisado->y = coord.y;
+    pesquisado->estado = SONDADO;
+    return 1;
+  }
+  return 0;
+}
 
-    for (coord_atual.x = jog->x - 1; coord_atual.x <= jog->x + 1 && !achou; coord_atual.x++)
+int sondar_jogador(coord_t *jogador, int *sondagem_extras, int *qtd_jogador_preso)
+{
+  if (jogador->estado == PRESO)
+    return 0;
+  coord_t atual, *pesquisado;
+  int qtd_sondagem = 0;
+  int sondagem_possiveis = 1 + *sondagem_extras;
+  int x, y, dx, dy, t, contador;
+
+  x = dx = 1;
+  y = dy = 0;
+
+  for (contador = 0; contador < 8 && sondagem_possiveis > 0; contador++)
+  {
+    atual.x = jogador->x + x;
+    atual.y = jogador->y + y;
+    if (sondar_coord(atual))
     {
-      for (coord_atual.y = jog->y - 1; coord_atual.y <= jog->y + 1 && !achou; coord_atual.y++)
-        if (!(coord_atual.x == jog->x && coord_atual.y == jog->y))
-        {
-          coord_pesquisada = map_buscar(coord_atual);
-          if (coord_eh_null(coord_pesquisada))
-          {
-            PRINT("sondagem %d %d", coord_atual.x, coord_atual.y);
-            coord_pesquisada->estado = SONDADO;
-            qtd_sondagem++;
-            achou = 1;
-          }
-        }
+      sondagem_possiveis--;
+      qtd_sondagem++;
     }
+    if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1 - y)))
+    {
+      t = dx;
+      dx = -dy;
+      dy = t;
+    }
+    x += dx;
+    y += dy;
   }
 
+  if(contador == 8){
+    jogador->estado = PRESO;
+    *qtd_jogador_preso++;
+  }
+
+  *sondagem_extras = sondagem_possiveis;
   return qtd_sondagem;
+}
+
+int sondar()
+{
+  static int qtd_jogador_preso = 0;
+  int sondagem = 0, sondagem_max = qtd_jogadores;
+  int sondagem_extras = qtd_jogador_preso;
+
+  for (int i = qtd_jogadores - 1; i >= 0 && sondagem < sondagem_max; i--)
+  {
+    sondagem += sondar_jogador(jogadores[i], &sondagem_extras, &qtd_jogador_preso);
+  }
+
+  return sondagem;
 }
 
 coord_t *dominar()
@@ -308,7 +348,7 @@ void ler_sondagem()
   scanf("%s %d %d %d", str, &sondado.x, &sondado.y, &sondado.pontos);
   LOG(">> %s %d %d %d\n", str, sondado.x, sondado.y, sondado.pontos);
 
-  indice = map_inserir(sondado);
+  map_buscar(sondado, &indice)->pontos = sondado.pontos;
   if (sondado.pontos > 0)
   {
     min_indice = PQmin(&sondados);
