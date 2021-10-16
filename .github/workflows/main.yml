@@ -25,7 +25,8 @@ jobs:
           ref: 'logs'
       - name: 'Append test to log'
         run: |
-          echo -e "${{ env.LOG }}" | sed -e "s/ test/\\ntest/g" >> ci_logs.txt  
+          echo "${{ env.LOG }}" | sed -e "s/ test/\\ntest/g" >> ci_logs.txt
+          echo >> ci_logs.txt
       - name: 'Commit tests'
         uses: EndBug/add-and-commit@v7
         with:
