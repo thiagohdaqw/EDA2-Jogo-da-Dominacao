@@ -61,5 +61,6 @@ dkms.conf
 tmp
 *.tmp
 mensagens
+jogador.submit.c
 
 /bin
