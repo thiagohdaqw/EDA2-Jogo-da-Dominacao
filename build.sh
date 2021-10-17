@@ -18,7 +18,9 @@ if [[ "$success" != "0" ]]; then
   exit 1
 fi
 
-gcc -o "$BIN_PATH/jogador" jogador.c -DDEBUG=1 -g
+./extract_replace.sh
+
+gcc -o "$BIN_PATH/jogador" jogador.submit.c -DDEBUG=1 -g
 success=$?
 
 if [[ "$success" != "0" ]]; then

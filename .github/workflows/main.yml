@@ -18,7 +18,7 @@ jobs:
         run: ./test.sh ci_logs.txt
       - name: 'Save log in env'
         run: |
-          echo "LOG="$(cat ci_logs.txt)"" >> $GITHUB_ENV
+          echo -e "LOG="$(cat ci_logs.txt)"\n" >> $GITHUB_ENV
       - name: Checkout logs
         uses: actions/checkout@v2
         with:
