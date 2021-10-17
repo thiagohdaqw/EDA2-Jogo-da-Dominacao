@@ -19,7 +19,7 @@ main () {
 # Procura os `#include "*.h"` dentro do arquivo que é recebido 
 # como argumento
 find_include_files() {
-  includes=$(cat $1 | grep -E "^#include\s+\"")
+  includes=$(cat $1 | grep -E "#include\s+\"")
 
   while IFS= read -r line; do
     file=$(echo $line | sed -E "s/#include\s+\"(.*)\"/\1/")
@@ -60,7 +60,7 @@ extract_replace() {
 
 # Arquivos `.h` podem incluir outros `.h` e isso dá problemas de redeclaração.
 remove_includes_from_outputfile() {
-  sed -i -E '/#include\s+\"/d' $outputfile
+  sed -i -E '/#include\s+\"(.*)\"/d' $outputfile
 }
 
 main
