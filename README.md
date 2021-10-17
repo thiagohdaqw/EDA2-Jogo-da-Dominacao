@@ -15,18 +15,3 @@ A todos os arquivos `.sh` devem ser dadas permissão de execução:
 Por exemplo:
 
     ./run.sh 777 5 5 8
-
-## Sobre o script `extract-replace.sh`
-Ele funciona copiando o conteúdo dos arquivos `*.h` declarados em `jogador.c` 
-para um arquivo resultante `jogador.submit.c`, que é o arquivo que pode ser
-submetido no MOJ. Tanto o programa resultante de `jogador.c` quanto o de 
-`jogador.submit.c` podem ser compilados e executados localmente com o script
-`build.sh`.
-
-`extract-replace.sh` assume que:
-- arquivos `*.h` e `jogador.c` estão no mesmo diretório que o script.
-- todo arquivo `.h` define o cabeçalho com `<NOME_ARQUIVO_MAIUSCULO>_H_INCLUDED`
-e termina com `#endif // <NOME_ARQUIVO_MAIUSCULO>_H_INCLUDED` (é possível criar 
-um snippet no vscode para facilitar a definição do cabeçalho). Tudo o que está 
-entre essas duas strings é copiado para o arquivo resultante.
-

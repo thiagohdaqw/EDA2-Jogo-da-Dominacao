@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    ".sequelizerc": "javascript",
+    ".prettierrc": "json",
+    "*.asm": "asm-intel-x86-generic",
+    "debug.h": "c"
+  }
+}
