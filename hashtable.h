@@ -1,14 +1,42 @@
 #ifndef HASHTABLE_H_INCLUDED
 #define HASHTABLE_H_INCLUDED
 
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "debug.h"
 #include "coord.h"
 
 // Mapa - HashTable
-#define MAP_INITIAL_CAPACITY 997
-static int map_capacity = MAP_INITIAL_CAPACITY;
+#define HT_CAPACIDADE_INICIAL 997
+static int map_capacity = HT_CAPACIDADE_INICIAL;
 static int map_size = 0;
-static coord_t map[MAP_INITIAL_CAPACITY] = {[0 ... MAP_INITIAL_CAPACITY - 1] = {0, 0, 0, NAO_SONDADO}};
+// static coord_t map[HT_CAPACIDADE_INICIAL] 
+//   = {[0 ... HT_CAPACIDADE_INICIAL - 1] = {0, 0, 0, NAO_SONDADO}};
+static coord_t* map;
 static int colisao_max = 50;
+
+typedef struct HT
+{
+  int size, capacidade;
+  coord_t* arr;
+} HT;
+
+
+HT* HT_criar() {
+  map = (coord_t*) calloc(HT_CAPACIDADE_INICIAL, sizeof(coord_t));
+  HT* ht = (HT*) malloc(sizeof(HT));
+  ht->capacidade = HT_CAPACIDADE_INICIAL;
+  ht->size = 0;
+  ht->arr = (coord_t*) calloc(HT_CAPACIDADE_INICIAL, sizeof(coord_t));
+  return ht;
+}
+
+void HT_destruir(HT* ht) {
+  free(ht->arr);
+  free(ht);
+  free(map);
+}
 
 int gen_hash(int *a, int b, int h, int valor)
 {
