@@ -19,7 +19,7 @@ int sondar_coord(coord_t coord)
   coord_t *pesquisado = map_buscar(coord, &indice);
   if (coord_eh_null(pesquisado))
   {
-    PRINT("sondagem %d %d", coord.x, coord.y);
+    PRINT("sondagem %d %d\n", coord.x, coord.y);
     pesquisado->x = coord.x;
     pesquisado->y = coord.y;
     pesquisado->estado = SONDADO;

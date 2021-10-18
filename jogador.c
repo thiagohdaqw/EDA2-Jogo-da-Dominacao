@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void print_relatorio_turno(int turno, int qtd_sondagem, int dominou);
-
 #include "debug.h"
 #include "coord.h"
 #include "hashtable.h"
@@ -13,6 +11,8 @@ void print_relatorio_turno(int turno, int qtd_sondagem, int dominou);
 
 #include "pq.h"
 #include "dominacao.h"
+
+void print_relatorio_turno(int turno, int qtd_sondagem, int dominou);
 
 int main()
 {
@@ -36,10 +36,8 @@ int main()
       print_relatorio_turno(turno + 1, qtd_sondagem, !coord_eh_null(&dominado));
   }
 
-  LOG("== Relatorio Final |")
-  LOG("pontuação: %d |", calc_total_pontos());
-  LOG("Quantidade colisoes: %d |", qtd_colisao);
-  LOG("\n");
+  if (DEBUG)
+    print_relatorio_final(calc_total_pontos(), sondados.N, sondados.capacity);
 
   free(jogadores);
   free(sondados.pq);
