@@ -1,44 +1,46 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void print_relatorio_turno(int turno, int qtd_sondagem, int dominou);
-
 #include "debug.h"
 #include "coord.h"
 #include "hashtable.h"
+
+#define Item coord_t
+#define pq_key(A) (A.pontos)
+#define less(A, B) (pq_key(A) < pq_key(B))
+
 #include "pq.h"
 #include "dominacao.h"
+
+void print_relatorio_turno(int turno, int qtd_sondagem, int dominou);
 
 int main()
 {
   coord_t jogador_inicial = {0, 0, 0, DOMINADO};
-  coord_t *dominado = &NULL_COORD;
+  coord_t dominado = NULL_COORD;
   int limite_de_turnos, dominou = 0, qtd_sondagem;
 
   scanf("%d %d %d %d", &jogador_inicial.x, &jogador_inicial.y,
         &jogador_inicial.pontos, &limite_de_turnos);
 
   inicializa_jogadores(&jogador_inicial, limite_de_turnos);
-  inicializa_sondados();
+  inicializa_sondados(limite_de_turnos);
 
   for (int turno = 0; turno < limite_de_turnos; turno++)
   {
     qtd_sondagem = sondar();
     dominado = dominar();
     PRINT("fimturno\n");
-    ler_resposta_do_juiz(qtd_sondagem, dominado);
+    ler_resposta_do_juiz(qtd_sondagem, &dominado);
     if (DEBUG)
-      print_relatorio_turno(turno + 1, qtd_sondagem, !coord_eh_null(dominado));
+      print_relatorio_turno(turno + 1, qtd_sondagem, !coord_eh_null(&dominado));
   }
 
-  LOG("== Relatorio Final |")
-  LOG("pontuação: %d |", calc_total_pontos());
-  LOG("Quantidade colisoes: %d |", qtd_colisao);
-  LOG("\n");
+  if (DEBUG)
+    print_relatorio_final(calc_total_pontos(), sondados.N, sondados.capacity);
 
   free(jogadores);
   free(sondados.pq);
-  free(sondados.qp);
   return 0;
 }
 

@@ -25,6 +25,12 @@ int qtd_colisao = 0;
   }
 #endif
 
-
+void print_relatorio_final(int total_pontos, int pq_n, int pq_capacity){
+  LOG("PQn=%d PQcapacity=%d\n", pq_n, pq_capacity);
+  LOG("== Relatorio Final |")
+  LOG("pontuação: %d |", total_pontos);
+  LOG("Quantidade colisoes: %d |", qtd_colisao);
+  LOG("\n");
+}
 
 #endif // DEBUG_H_INCLUDED
