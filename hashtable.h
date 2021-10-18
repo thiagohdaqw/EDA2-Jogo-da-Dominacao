@@ -9,39 +9,23 @@
 
 // Mapa - HashTable
 #define HT_CAPACIDADE_INICIAL 997
-static int map_capacity = HT_CAPACIDADE_INICIAL;
+static int map_capacidade = HT_CAPACIDADE_INICIAL;
 static int map_size = 0;
-// static coord_t map[HT_CAPACIDADE_INICIAL] 
-//   = {[0 ... HT_CAPACIDADE_INICIAL - 1] = {0, 0, 0, NAO_SONDADO}};
 static coord_t* map;
 static int colisao_max = 50;
 
-typedef struct HT
-{
-  int size, capacidade;
-  coord_t* arr;
-} HT;
-
-
-HT* HT_criar() {
+void map_criar() {
   map = (coord_t*) calloc(HT_CAPACIDADE_INICIAL, sizeof(coord_t));
-  HT* ht = (HT*) malloc(sizeof(HT));
-  ht->capacidade = HT_CAPACIDADE_INICIAL;
-  ht->size = 0;
-  ht->arr = (coord_t*) calloc(HT_CAPACIDADE_INICIAL, sizeof(coord_t));
-  return ht;
 }
 
-void HT_destruir(HT* ht) {
-  free(ht->arr);
-  free(ht);
+void map_destruir() {
   free(map);
 }
 
 int gen_hash(int *a, int b, int h, int valor)
 {
-  *a = *a * b % (map_capacity - 1);
-  return (*a * h + valor) % map_capacity;
+  *a = *a * b % (map_capacidade - 1);
+  return (*a * h + valor) % map_capacidade;
 }
 
 int hashone(coord_t item)
@@ -56,12 +40,12 @@ int hashone(coord_t item)
 
 int hashtwo(int h)
 {
-  return (16161 * (unsigned)h) % map_capacity;
+  return (16161 * (unsigned)h) % map_capacidade;
 }
 
 int hash(int h1, int h2, int i)
 {
-  return (h1 + i * h2) % map_capacity;
+  return (h1 + i * h2) % map_capacidade;
 }
 
 coord_t *map_obter(int indice)
@@ -86,7 +70,25 @@ int map_obter_indice_livre(coord_t item, int *indice)
   return 0;
 }
 
-int map_inserir(coord_t item)
+void map_mudar_capacidade_e_reinserir(int nova_capacidade);
+
+int map_inserir(coord_t* map, coord_t item)
+{
+  if (map_size*1.0/map_capacidade >= 0.75) {
+    map_mudar_capacidade_e_reinserir(map_capacidade*2+1);
+  }
+
+  int indice = 0;
+  if (!map_obter_indice_livre(item, &indice))
+    return NULL_COORD_INDICE;
+
+  map[indice] = item;
+  map_size++;
+  return indice;
+}
+
+// mesma coisa que map_inserir, mas sem o if do resize
+int map_reinserir(coord_t* map, coord_t item)
 {
   int indice = 0;
   if (!map_obter_indice_livre(item, &indice))
@@ -111,7 +113,22 @@ coord_t *map_buscar(coord_t item, int *indice)
     LOG_COLISAO();
   }
   // expand
+  *indice = -1;
   return &NULL_COORD;
+}
+
+void map_mudar_capacidade_e_reinserir(int nova_capacidade) {
+  int i = 0;
+  coord_t* tmp = (coord_t*) calloc(nova_capacidade, sizeof(coord_t));
+
+  for (; i < map_capacidade; i++) {
+    if (!coord_eh_null(&map[i]))
+      map_reinserir(tmp, map[i]);
+  }
+
+  free(map);
+  map = tmp;
+  map_capacidade = nova_capacidade;
 }
 
 

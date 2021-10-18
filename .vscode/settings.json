@@ -1,8 +1,28 @@
 {
+  "testExplorer.onReload": "retire",
+  "testMate.cpp.test.parallelExecutionLimit": 5,
+  "testMate.cpp.test.advancedExecutables": [
+    {
+      // https://github.com/matepek/vscode-catch2-test-adapter/blob/master/documents/configuration/test.advancedExecutables.md#testgrouping
+      "pattern": "{build,Build,BUILD,out,Out,OUT,bin}/**/*{test,tests,Test,TEST,ut}*",
+      "doctest": {
+        "testGrouping": {
+          "groupByExecutable": {
+            "label": "${filename}",
+            "description": "${relDirpath}/",
+            "groupByTags": {
+              "label": "${tags}"
+            },
+          },
+        }
+      },
+    }
+  ],
   "files.associations": {
     ".sequelizerc": "javascript",
     ".prettierrc": "json",
     "*.asm": "asm-intel-x86-generic",
-    "debug.h": "c"
+    "debug.h": "c",
+    "dominacao.h": "c"
   }
 }

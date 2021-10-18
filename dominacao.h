@@ -104,7 +104,6 @@ void ler_sondagem()
   scanf("%s %d %d %d", str, &sondado.x, &sondado.y, &sondado.pontos);
   LOG(">> %s %d %d %d\n", str, sondado.x, sondado.y, sondado.pontos);
 
-  map_buscar(sondado, &indice)->pontos = sondado.pontos;
   if (sondado.pontos > 0)
   {
     if (PQfull(&sondados)){
@@ -135,7 +134,7 @@ void ler_resposta_do_juiz(int qtd_sondagem, coord_t *dominado)
 void inicializa_jogadores(coord_t *jogador_inicial, int limite_turnos)
 {
   jogadores = malloc((limite_turnos + 2) * sizeof(coord_t));
-  map_inserir(*jogador_inicial);
+  map_inserir(map, *jogador_inicial);
   jogadores_inserir(*jogador_inicial);
 }
 
