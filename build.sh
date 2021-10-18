@@ -20,7 +20,7 @@ fi
 
 ./extract_replace.sh
 
-gcc -o "$BIN_PATH/jogador" jogador.submit.c -DDEBUG=1 -g
+gcc -o "$BIN_PATH/jogador" jogador.submit.c -DDEBUG=1 -O2 -static -g
 success=$?
 
 if [[ "$success" != "0" ]]; then
