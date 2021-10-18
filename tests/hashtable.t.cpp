@@ -45,26 +45,58 @@ TEST_CASE("ht inserir e buscar") {
   map_destruir();
 }
 
-TEST_CASE("ht um resize apenas por tamanho") {
+TEST_CASE("ht muito inserir e buscar") {
   map_criar();
 
   int indice, i;
   coord_t c = {1, 1, 10, SONDADO};
   coord_t* ptr_c;
 
-  // +3 pra forçar resize
-  int map_capacidade_tres_quartos = 0.75*map_capacidade + 2;
+  // +2 pra forçar resize
+  int map_capacidade_tres_quartos = 0.75*map_capacidade;
   for (i = 0; i < map_capacidade_tres_quartos; i++) {
     map_inserir(map, c);
     c.x++; c.y++;
   }
 
+  // certificar que não ocorreu resize
+  REQUIRE(map_capacidade == HT_CAPACIDADE_INICIAL);
+
+  c.x = c.y = 1;
+  for (i = 0; i < map_capacidade_tres_quartos; i++) {
+    CHECK(!coord_eh_null(map_buscar(c, &indice)));  
+    c.x++; c.y++;
+  }
+
+  map_destruir();
+}
+
+TEST_CASE("ht um resize apenas pelo tamanho") {
+  map_criar();
+
+  int indice, i;
+  coord_t c = {1, 1, 10, SONDADO};
+  coord_t* ptr_c;
+
+  // +2 pra forçar resize
+  int map_capacidade_tres_quartos = 0.75*map_capacidade + 2;
+  int capacidade_inicial = map_capacidade;
+  for (i = 0; i < capacidade_inicial; i++) {
+    map_inserir(map, c);
+    c.x++; c.y++;
+  }
+
   REQUIRE(map_capacidade > 2*HT_CAPACIDADE_INICIAL);
-  c.x = 1;
-  c.y = 1;
-  CHECK(!coord_eh_null(map_buscar(c, &indice)));  
-  // for (i = 0; i < map_capacidade; i++) {
-  // }
+  c.x = c.y = 1;
+  for (i = 0; i < capacidade_inicial; i++) {
+    CHECK(!coord_eh_null(map_buscar(c, &indice)));  
+    
+    // outro jeito de fazer:
+    // map_buscar(c, &indice);  
+    // CHECK(coord_eh_igual(&c, &map[indice]));
+    
+    c.x++; c.y++;
+  }
 
   map_destruir();
 }

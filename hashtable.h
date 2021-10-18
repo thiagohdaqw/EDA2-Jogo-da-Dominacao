@@ -12,7 +12,7 @@
 static int map_capacidade = HT_CAPACIDADE_INICIAL;
 static int map_size = 0;
 static coord_t* map;
-static int colisao_max = 50;
+static int colisao_max = 1995;
 
 void map_criar() {
   map = (coord_t*) calloc(HT_CAPACIDADE_INICIAL, sizeof(coord_t));
@@ -57,7 +57,7 @@ int map_obter_indice_livre(coord_t item, int *indice)
 {
   int h = hashone(item);
   int h2 = hashtwo(h);
-  int colisao;
+  int colisao = 0;
   for (colisao = 0; colisao < colisao_max; colisao++)
   {
     *indice = hash(h, h2, colisao);
@@ -112,23 +112,23 @@ coord_t *map_buscar(coord_t item, int *indice)
       return map_obter(*indice);
     LOG_COLISAO();
   }
-  // expand
+
   *indice = -1;
   return &NULL_COORD;
 }
 
 void map_mudar_capacidade_e_reinserir(int nova_capacidade) {
-  int i = 0;
+  int i = 0, capacidade_antiga = map_capacidade;
   coord_t* tmp = (coord_t*) calloc(nova_capacidade, sizeof(coord_t));
 
-  for (; i < map_capacidade; i++) {
+  map_capacidade = nova_capacidade;
+  for (; i < capacidade_antiga; i++) {
     if (!coord_eh_null(&map[i]))
       map_reinserir(tmp, map[i]);
   }
 
   free(map);
   map = tmp;
-  map_capacidade = nova_capacidade;
 }
 
 

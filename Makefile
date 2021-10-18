@@ -1,7 +1,7 @@
 # Makefile apenas para os arquivos de teste em tests/
 
 cxx = g++
-cxxflags = -g
+cxxflags = -g -static -lm
 
 exec = tests
 build_dir ?= tests
