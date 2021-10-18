@@ -19,7 +19,7 @@ int sondar_coord(coord_t coord)
   coord_t *pesquisado = map_buscar(coord, &indice);
   if (coord_eh_null(pesquisado))
   {
-    PRINT("sondagem %d %d\n", coord.x, coord.y);
+    PRINT("sondar %d %d\n", coord.x, coord.y);
     pesquisado->x = coord.x;
     pesquisado->y = coord.y;
     pesquisado->estado = SONDADO;
@@ -89,7 +89,7 @@ coord_t dominar()
   coord_t dominado = PQdelMax(&sondados);
   dominado.estado = DOMINADO;
   jogadores_inserir(dominado);
-  PRINT("dominacao %d %d\n", dominado.x, dominado.y);
+  PRINT("dominar %d %d\n", dominado.x, dominado.y);
   return dominado;
 }
 
