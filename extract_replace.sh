@@ -34,7 +34,7 @@ main () {
 # Procura os `#include "*.h"` dentro do arquivo que é recebido 
 # como argumento
 find_include_files() {
-  includes=$(cat $1 | grep -E "#include\s+\"")
+  includes=$(cat $1 | grep -E "#include\s+\"" | grep -v "\/\/" | grep -v "\/\*")
 
   while IFS= read -r line; do
     file=$(echo $line | sed -E "s/#include\s+\"(.*)\"/\1/")
