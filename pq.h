@@ -14,23 +14,29 @@ struct pq_st
   Item *pq;
   int N;
   int capacity;
+  int min;
 };
 
-void fixUp(struct pq_st *PQ, int K)
+int fixUp(struct pq_st *PQ, int K)
 {
   Item *v = PQ->pq;
+  int indice = K;
 
   while (K > 1 && less(v[K / 2], v[K]))
   {
+    if(K/2 == PQ->min)
+      PQ->min = K;
     exch(v[K], v[K / 2]);
     K = K / 2;
+    indice = K;
   }
+  return indice;
 }
 
-void fixDown(struct pq_st *PQ, int K, int N)
+int fixDown(struct pq_st *PQ, int K, int N)
 {
   Item *v = PQ->pq;
-  int j;
+  int j, indice;
   while (2 * K <= N)
   {
     j = 2 * K;
@@ -38,9 +44,13 @@ void fixDown(struct pq_st *PQ, int K, int N)
       j++;
     if (!less(v[K], v[j]))
       break;
+    if(j == PQ->min)
+      PQ->min = j;
     exch(v[K], v[j]);
     K = j;
+    indice = K;
   }
+  return indice;
 }
 
 void PQinit(struct pq_st *PQ, int maxN)
@@ -48,6 +58,7 @@ void PQinit(struct pq_st *PQ, int maxN)
   PQ->capacity = maxN;
   PQ->pq = malloc(sizeof(Item) * (PQ->capacity + 1));
   PQ->N = 0;
+  PQ->min = 0;
 }
 
 int PQempty(struct pq_st *PQ)
@@ -55,10 +66,20 @@ int PQempty(struct pq_st *PQ)
   return PQ->N == 0;
 }
 
+Item PQmin(struct pq_st *PQ)
+{
+  return PQ->pq[PQ->min];
+}
+
 void PQinsert(struct pq_st *PQ, Item novo)
 {
   PQ->pq[++PQ->N] = novo;
-  fixUp(PQ, PQ->N);
+  int indice = fixUp(PQ, PQ->N);
+  
+  if(PQ->N == 1)
+    PQ->min = 1;
+  else if (less(novo, PQmin(PQ)))
+    PQ->min = indice;
 }
 
 Item PQdelMax(struct pq_st *PQ)
@@ -71,15 +92,14 @@ Item PQdelMax(struct pq_st *PQ)
 void PQchange(struct pq_st *PQ, int K)
 {
   fixUp(PQ, K);
-  fixDown(PQ, K, PQ->N);
+  int indice = fixDown(PQ, K, PQ->N);
+  if(less(PQ->pq[indice], PQmin(PQ)))
+    PQ->min = indice;
 }
 
-Item PQmin(struct pq_st *PQ)
-{
-  Item *v = PQ->pq;
-  if (less(v[PQ->N - 1], v[PQ->N]))
-    return v[PQ->N - 1];
-  return v[PQ->N];
+void PQchangeMin(struct pq_st *PQ, Item novo){
+  PQ->pq[PQ->min] = novo;
+  PQchange(PQ, PQ->min);
 }
 
 int PQfull(struct pq_st *PQ)
@@ -96,6 +116,5 @@ void PQprint(struct pq_st *PQ)
   }
   LOG("\n");
 }
-
 
 #endif // PQ_H_INCLUDED
