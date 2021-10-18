@@ -2,33 +2,12 @@
 #define COORD_H_INCLUDED
 
 // Coordenadas
-typedef enum
+typedef struct Coord
 {
-  NAO_SONDADO,
-  SONDADO,
-  DOMINADO,
-  PRESO
-} Estado;
+  long int x;
+  long int y;
+} Coord;
 
-typedef struct coord_t
-{
-  int x, y;
-  int pontos;
-  Estado estado;
-} coord_t;
-
-static coord_t NULL_COORD = {0, 0, 0, NAO_SONDADO};
-#define NULL_COORD_INDICE -1
-
-int coord_eh_igual(coord_t *a, coord_t *b)
-{
-  return a->x == b->x && a->y == b->y;
-}
-
-int coord_eh_null(coord_t *a)
-{
-  return a->estado == NULL_COORD.estado;
-}
-
+#define coord_eh_igual(A, B) ((A).x == (B).x && (A).y == (B).y)
 
 #endif // COORD_H_INCLUDED

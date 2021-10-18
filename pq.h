@@ -111,7 +111,7 @@ void PQprint(struct pq_st *PQ)
 {
   for (int i = 1; i < PQ->N; i++)
   {
-    coord_t c = PQ->pq[i];
+    Coord c = PQ->pq[i];
     LOG("(%d, %d) -> %d, ", c.x, c.y, c.pontos);
   }
   LOG("\n");
