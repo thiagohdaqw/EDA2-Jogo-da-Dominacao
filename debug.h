@@ -8,6 +8,7 @@
   }
 
 #ifndef DEBUG
+int qtd_colisao = 0;
 #define LOG(x, args...) \
   {                     \
   }
