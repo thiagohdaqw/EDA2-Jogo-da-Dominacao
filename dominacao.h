@@ -2,9 +2,11 @@
 #define DOMINACAO_H_INCLUDED
 
 #include "hashtable.h"
+#include "pq.h"
 
 static coord_t *jogadores;
 static int qtd_jogadores = 0;
+static struct pq_st sondados;
 
 void jogadores_inserir(coord_t jogador)
 {
@@ -84,11 +86,11 @@ coord_t dominar()
 {
   if (PQempty(&sondados))
     return NULL_COORD;
-  coord_t *dominado = map_obter(PQdelMax(&sondados));
-  dominado->estado = DOMINADO;
-  jogadores_inserir(*dominado);
-  PRINT("dominacao %d %d\n", dominado->x, dominado->y);
-  return *dominado;
+  coord_t dominado = PQdelMax(&sondados);
+  dominado.estado = DOMINADO;
+  jogadores_inserir(dominado);
+  PRINT("dominacao %d %d\n", dominado.x, dominado.y);
+  return dominado;
 }
 
 static char str[100];
@@ -96,7 +98,8 @@ static char str[100];
 void ler_sondagem()
 {
   coord_t sondado = {0, 0, 0, SONDADO};
-  int min_indice = 0, indice = 0;
+  coord_t min_sondado;
+  int indice = 0;
 
   scanf("%s %d %d %d", str, &sondado.x, &sondado.y, &sondado.pontos);
   LOG(">> %s %d %d %d\n", str, sondado.x, sondado.y, sondado.pontos);
@@ -104,13 +107,13 @@ void ler_sondagem()
   map_buscar(sondado, &indice)->pontos = sondado.pontos;
   if (sondado.pontos > 0)
   {
-    min_indice = PQmin(&sondados);
-    if (PQfull(&sondados) && less(indice, min_indice))
+    min_sondado = PQmin(&sondados);
+    if (PQfull(&sondados) && less(sondado, min_sondado))
     {
       LOG("pulou \n");
       return;
     }
-    PQinsert(&sondados, indice);
+    PQinsert(&sondados, sondado);
   }
 }
 
@@ -133,9 +136,9 @@ void inicializa_jogadores(coord_t *jogador_inicial, int limite_turnos)
   jogadores_inserir(*jogador_inicial);
 }
 
-void inicializa_sondados()
+void inicializa_sondados(int max)
 {
-  PQinit(&sondados, 1000);
+  PQinit(&sondados, max);
 }
 
 int calc_total_pontos()

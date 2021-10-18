@@ -6,6 +6,11 @@ void print_relatorio_turno(int turno, int qtd_sondagem, int dominou);
 #include "debug.h"
 #include "coord.h"
 #include "hashtable.h"
+
+#define Item coord_t
+#define pq_key(A) (A.pontos)
+#define less(A, B) (pq_key(A) < pq_key(B))
+
 #include "pq.h"
 #include "dominacao.h"
 
@@ -19,7 +24,7 @@ int main()
         &jogador_inicial.pontos, &limite_de_turnos);
 
   inicializa_jogadores(&jogador_inicial, limite_de_turnos);
-  inicializa_sondados();
+  inicializa_sondados(limite_de_turnos);
 
   for (int turno = 0; turno < limite_de_turnos; turno++)
   {
@@ -38,7 +43,6 @@ int main()
 
   free(jogadores);
   free(sondados.pq);
-  free(sondados.qp);
   return 0;
 }
 
