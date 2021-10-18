@@ -139,3 +139,16 @@ test case 777 5 5 8 | pontos: 1322, tempo:  0,003s, colisao: 0
 test case 1234 -100 -100 8 | pontos: 1691, tempo:  0,004s, colisao: 0
 test case 666 -100 -100 100 | pontos: 19029, tempo:  0,011s, colisao: 0
 test case 666 200 200 150 | pontos: 28974, tempo:  0,016s, colisao: 0
+
+[2021-10-17 23:57:34] Adicionando nos sondados apenas as coordenadas com pontos maior que o menor
+test case 777 5 5 8 | pontos: 1322, tempo:  0,003s, colisao: 0
+test case 1234 -100 -100 8 | pontos: 1691, tempo:  0,004s, colisao: 0
+test case 666 -100 -100 100 | pontos: 19029, tempo:  0,008s, colisao: 0
+test case 666 200 200 150 | pontos: 28974, tempo:  0,016s, colisao: 0
+
+[2021-10-18 00:02:56]
+test case 777 5 5 8 | pontos: 1322, tempo:  0,004s, colisao: 0
+test case 1234 -100 -100 8 | pontos: 1691, tempo:  0,004s, colisao: 0
+test case 666 -100 -100 100 | pontos: 19029, tempo:  0,008s, colisao: 0
+test case 666 200 200 150 | pontos: 28974, tempo:  0,011s, colisao: 0
+test case 669 -200 200 300 | pontos: 57467, tempo:  0,054s, colisao: 1776

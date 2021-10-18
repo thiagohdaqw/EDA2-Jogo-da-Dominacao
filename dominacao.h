@@ -107,13 +107,16 @@ void ler_sondagem()
   map_buscar(sondado, &indice)->pontos = sondado.pontos;
   if (sondado.pontos > 0)
   {
-    min_sondado = PQmin(&sondados);
-    if (PQfull(&sondados) && less(sondado, min_sondado))
-    {
-      LOG("pulou \n");
-      return;
+    if (PQfull(&sondados)){
+      min_sondado = PQmin(&sondados);
+      if(!less(sondado, min_sondado)){
+        LOG("pulou \n");
+        return;
+      }
+      PQchangeMin(&sondados, sondado);
+    } else{
+      PQinsert(&sondados, sondado);
     }
-    PQinsert(&sondados, sondado);
   }
 }
 
