@@ -17,15 +17,8 @@ typedef struct coord_t
   Estado estado;
 } coord_t;
 
-static coord_t **jogadores;
-static int qtd_jogadores = 0;
 static coord_t NULL_COORD = {0, 0, 0, NAO_SONDADO};
 #define NULL_COORD_INDICE -1
-
-void jogadores_inserir(coord_t *jogador)
-{
-  jogadores[qtd_jogadores++] = jogador;
-}
 
 int coord_eh_igual(coord_t *a, coord_t *b)
 {

@@ -12,7 +12,7 @@ void print_relatorio_turno(int turno, int qtd_sondagem, int dominou);
 int main()
 {
   coord_t jogador_inicial = {0, 0, 0, DOMINADO};
-  coord_t *dominado = &NULL_COORD;
+  coord_t dominado = NULL_COORD;
   int limite_de_turnos, dominou = 0, qtd_sondagem;
 
   scanf("%d %d %d %d", &jogador_inicial.x, &jogador_inicial.y,
@@ -26,9 +26,9 @@ int main()
     qtd_sondagem = sondar();
     dominado = dominar();
     PRINT("fimturno\n");
-    ler_resposta_do_juiz(qtd_sondagem, dominado);
+    ler_resposta_do_juiz(qtd_sondagem, &dominado);
     if (DEBUG)
-      print_relatorio_turno(turno + 1, qtd_sondagem, !coord_eh_null(dominado));
+      print_relatorio_turno(turno + 1, qtd_sondagem, !coord_eh_null(&dominado));
   }
 
   LOG("== Relatorio Final |")
