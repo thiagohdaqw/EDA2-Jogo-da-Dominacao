@@ -104,7 +104,6 @@ void ler_sondagem()
   scanf("%s %d %d %d", str, &sondado.x, &sondado.y, &sondado.pontos);
   LOG(">> %s %d %d %d\n", str, sondado.x, sondado.y, sondado.pontos);
 
-  map_buscar(sondado, &indice)->pontos = sondado.pontos;
   if (sondado.pontos > 0)
   {
     if (PQfull(&sondados)){

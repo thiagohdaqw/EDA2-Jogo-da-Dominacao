@@ -16,6 +16,7 @@ void print_relatorio_turno(int turno, int qtd_sondagem, int dominou);
 
 int main()
 {
+  map_criar();
   coord_t jogador_inicial = {0, 0, 0, DOMINADO};
   coord_t dominado = NULL_COORD;
   int limite_de_turnos, dominou = 0, qtd_sondagem;
@@ -41,6 +42,7 @@ int main()
 
   free(jogadores);
   free(sondados.pq);
+  map_destruir();
   return 0;
 }
 
