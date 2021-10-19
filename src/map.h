@@ -25,7 +25,7 @@ typedef struct map
 } Map;
 
 #define MAP_INITIAL_CAPACITY 997
-#define COLISION_MAX 50
+#define COLISION_MAX 1995
 #define MAP_COORD_NULL NAO_SONDADO
 #define MAP_COORD_INDICE_NULL -1
 #define map_coord_eh_null(A) ((A).estado == MAP_COORD_NULL)
@@ -77,7 +77,7 @@ void map_mudar_capacidade_e_reinserir(Map *map, long int nova_capacidade);
 
 long int map_obter_indice_livre(Map *map, MapCoord item)
 {
-  long int indice;
+  long int indice = 0;
   long int h = hashone(map, item);
   long int h2 = hashtwo(map, h);
   long int colisao = 0;
@@ -109,15 +109,14 @@ MapCoord *map_buscar(Map *map, MapCoord item, long int *indice)
 {
   long int h = hashone(map, item);
   long int h2 = hashtwo(map, h);
-  int colisao;
 
-  for (colisao = 0; colisao < COLISION_MAX; colisao++)
+  for (int colisao = 0; colisao < COLISION_MAX; colisao++)
   {
     *indice = hash(map, h, h2, colisao);
     if (map_coord_eh_null(*map_obter(map, *indice)) || map_coord_eh_igual(*map_obter(map, *indice), item))
       return map_obter(map, *indice);
   }
-  
+  LOG("! Nao encontrou! (%ld, %ld)\n", item.coord.x, item.coord.y);
   *indice = MAP_COORD_INDICE_NULL;
   return NULL;
 }
