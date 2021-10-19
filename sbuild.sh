@@ -18,7 +18,7 @@ if [[ "$success" != "0" ]]; then
   exit 1
 fi
 
-./extract_replace.sh
+./sextract_replace.sh
 
 gcc -o "$BIN_PATH/jogador" src/main.submit.c -DDEBUG=1 -O2 -static -g
 success=$?
