@@ -17,6 +17,7 @@ comment
 
 
 main () {
+  cd src/
   outputfile="main.submit.c"
   main_inputfile="main.c"
 
@@ -27,25 +28,27 @@ main () {
   remove_includes_from_outputfile;
 
   # echo "debug"
-  # echo "$debug_extract"
+  echo "$debug_extract"
+  cd ..
 }
 
 
 # Procura os `#include "*.h"` dentro do arquivo que é recebido 
 # como argumento
 find_include_files() {
-  includes=$(cat $1 | grep -E "#include\s+\"" | grep -v "\/\/" | grep -v "\/\*")
+  include_macros=$(cat $1 | grep -E "#include\s+\"" | grep -v "\/\/" | grep -v "\/\*")
 
   while IFS= read -r line; do
     file=$(echo $line | sed -E "s/#include\s+\"(.*)\"/\1/")
     echo "$file"
-  done <<< "$includes"
+  done <<< "$include_macros"
 }
 
 
 extract_replace() {
   # https://stackoverflow.com/questions/965053/extract-filename-and-extension-in-bash
   files="$1"
+  # echo "arquivo $files"
   while IFS= read -r file; do
     filename="${file%.*}" # assume que é do tipo arquivo.h e está no mesmo diretório
     filename_uppercased=${filename^^}

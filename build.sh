@@ -11,7 +11,7 @@ if [ ! -e "$MENSAGENS" ]; then
 	mkfifo $MENSAGENS;
 fi
 
-gcc -o "$BIN_PATH/arbitro" arbitro.c -g -lm
+gcc -o "$BIN_PATH/arbitro" src/arbitro.c -g -lm
 success=$?
 
 if [[ "$success" != "0" ]]; then
@@ -20,7 +20,7 @@ fi
 
 ./extract_replace.sh
 
-gcc -o "$BIN_PATH/jogador" main.submit.c -DDEBUG=1 -O2 -static -g
+gcc -o "$BIN_PATH/jogador" src/main.submit.c -DDEBUG=1 -O2 -static -g
 success=$?
 
 if [[ "$success" != "0" ]]; then
