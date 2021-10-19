@@ -45,7 +45,7 @@ TEST_CASE("ht inserir e buscar") {
   map_destruir();
 }
 
-TEST_CASE("ht muito inserir e buscar") {
+TEST_CASE("ht muito inserir e buscar sem resize") {
   map_criar();
 
   int indice, i;
@@ -53,7 +53,7 @@ TEST_CASE("ht muito inserir e buscar") {
   coord_t* ptr_c;
 
   // +2 pra forçar resize
-  int map_capacidade_tres_quartos = 0.75*map_capacidade;
+  int map_capacidade_tres_quartos = 0.75*map_capacidade-2;
   for (i = 0; i < map_capacidade_tres_quartos; i++) {
     map_inserir(map, c);
     c.x++; c.y++;

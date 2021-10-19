@@ -23,6 +23,8 @@
     ".prettierrc": "json",
     "*.asm": "asm-intel-x86-generic",
     "debug.h": "c",
-    "dominacao.h": "c"
+    "dominacao.h": "c",
+    "coord.h": "c",
+    "stdio.h": "c"
   }
 }

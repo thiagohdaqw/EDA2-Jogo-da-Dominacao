@@ -87,18 +87,6 @@ int map_inserir(coord_t* map, coord_t item)
   return indice;
 }
 
-// mesma coisa que map_inserir, mas sem o if do resize
-int map_reinserir(coord_t* map, coord_t item)
-{
-  int indice = 0;
-  if (!map_obter_indice_livre(item, &indice))
-    return NULL_COORD_INDICE;
-
-  map[indice] = item;
-  map_size++;
-  return indice;
-}
-
 coord_t *map_buscar(coord_t item, int *indice)
 {
   int h = hashone(item);
@@ -114,6 +102,7 @@ coord_t *map_buscar(coord_t item, int *indice)
   }
 
   *indice = -1;
+  printf("max de colisao atingido\n");
   return &NULL_COORD;
 }
 
@@ -124,7 +113,7 @@ void map_mudar_capacidade_e_reinserir(int nova_capacidade) {
   map_capacidade = nova_capacidade;
   for (; i < capacidade_antiga; i++) {
     if (!coord_eh_null(&map[i]))
-      map_reinserir(tmp, map[i]);
+      map_inserir(tmp, map[i]);
   }
 
   free(map);
