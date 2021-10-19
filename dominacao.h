@@ -134,7 +134,7 @@ void ler_resposta_do_juiz(int qtd_sondagem, coord_t *dominado)
 void inicializa_jogadores(coord_t *jogador_inicial, int limite_turnos)
 {
   jogadores = malloc((limite_turnos + 2) * sizeof(coord_t));
-  map_inserir(map, *jogador_inicial);
+  map_inserir(*jogador_inicial);
   jogadores_inserir(*jogador_inicial);
 }
 

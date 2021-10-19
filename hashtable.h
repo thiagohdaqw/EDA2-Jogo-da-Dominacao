@@ -15,6 +15,9 @@ static coord_t* map;
 static int colisao_max = 1995;
 
 void map_criar() {
+  map_size = 0;
+  map_capacidade = HT_CAPACIDADE_INICIAL;
+  colisao_max = 1995;
   map = (coord_t*) calloc(HT_CAPACIDADE_INICIAL, sizeof(coord_t));
 }
 
@@ -53,34 +56,33 @@ coord_t *map_obter(int indice)
   return &map[indice];
 }
 
-int map_obter_indice_livre(coord_t item, int *indice)
+void map_mudar_capacidade_e_reinserir(int nova_capacidade);
+
+int map_obter_indice_livre(coord_t item)
 {
+  int indice;
   int h = hashone(item);
   int h2 = hashtwo(h);
   int colisao = 0;
   for (colisao = 0; colisao < colisao_max; colisao++)
   {
-    *indice = hash(h, h2, colisao);
-    if (coord_eh_null(map_obter(*indice)))
-      return 1;
+    indice = hash(h, h2, colisao);
+    if (coord_eh_null(map_obter(indice)))
+      return indice;
     LOG_COLISAO();
   }
-  // expand
-  //return map_obter_indice_livre(item);
-  return 0;
+
+  map_mudar_capacidade_e_reinserir(2*map_capacidade+1);
+  return map_obter_indice_livre(item);
 }
 
-void map_mudar_capacidade_e_reinserir(int nova_capacidade);
-
-int map_inserir(coord_t* map, coord_t item)
+int map_inserir(coord_t item)
 {
   if (map_size*1.0/map_capacidade >= 0.75) {
     map_mudar_capacidade_e_reinserir(map_capacidade*2+1);
   }
 
-  int indice = 0;
-  if (!map_obter_indice_livre(item, &indice))
-    return NULL_COORD_INDICE;
+  int indice = map_obter_indice_livre(item);
 
   map[indice] = item;
   map_size++;
@@ -102,22 +104,23 @@ coord_t *map_buscar(coord_t item, int *indice)
   }
 
   *indice = -1;
-  printf("max de colisao atingido\n");
   return &NULL_COORD;
 }
 
 void map_mudar_capacidade_e_reinserir(int nova_capacidade) {
   int i = 0, capacidade_antiga = map_capacidade;
-  coord_t* tmp = (coord_t*) calloc(nova_capacidade, sizeof(coord_t));
+
+  coord_t* map_antigo = map;
+  map = (coord_t*) calloc(nova_capacidade, sizeof(coord_t));
 
   map_capacidade = nova_capacidade;
+  map_size = 0;
   for (; i < capacidade_antiga; i++) {
-    if (!coord_eh_null(&map[i]))
-      map_inserir(tmp, map[i]);
+    if (!coord_eh_null(&map_antigo[i]))
+      map_inserir(map_antigo[i]);
   }
 
-  free(map);
-  map = tmp;
+  free(map_antigo);
 }
 
 
