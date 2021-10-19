@@ -24,7 +24,11 @@
     "*.asm": "asm-intel-x86-generic",
     "debug.h": "c",
     "dominacao.h": "c",
+    "stdio.h": "c",
+    "jogador.h": "c",
+    "sondados.h": "c",
     "coord.h": "c",
-    "stdio.h": "c"
+    "pq.h": "c",
+    "sondcoord.h": "c"
   }
 }

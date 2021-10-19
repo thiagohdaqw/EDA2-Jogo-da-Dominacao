@@ -62,5 +62,6 @@ tmp
 *.tmp
 mensagens
 jogador.submit.c
+main.submit.c
 
 /bin

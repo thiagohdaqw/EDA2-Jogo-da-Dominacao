@@ -5,6 +5,8 @@
 
 #include "coord.h"
 #include "map.h"
+#include "sondcoord.h"
+#include "pq.h"
 #include "sondados.h"
 #include "jogador.h"
 #include "dominacao.h"
@@ -20,7 +22,7 @@ int main()
 
   int limite_turnos, qtd_sondagem;
 
-  scanf("%d %d %*d %d", &jogador_inicial.coord.x, &jogador_inicial.coord.y, &limite_turnos);
+  scanf("%ld %ld %*d %d", &jogador_inicial.coord.x, &jogador_inicial.coord.y, &limite_turnos);
 
   map_inicializa(&map);
   sondados_inicializa(&sondados, limite_turnos);

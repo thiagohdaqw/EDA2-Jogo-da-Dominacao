@@ -2,18 +2,9 @@
 #define SONDADOS_H_INCLUDED
 
 #include "coord.h"
-
-typedef struct SondCoord
-{
-  Coord coord;
-  long int pontos;
-} SondCoord;
-
-#define Item SondCoord
-#define pq_key(A) ((A).pontos)
-#define less(A, B) (pq_key(A) < pq_key(B))
-
+#include "sondcoord.h"
 #include "pq.h"
+
 
 typedef struct pq_st Sondados;
 
@@ -48,5 +39,17 @@ void sondados_troca_min(Sondados *sondados, SondCoord novo){
   sondados->pq[sondados->min] = novo;
   PQchange(sondados, sondados->min);
 }
+
+void sondados_print(Sondados *sondados)
+{
+  SondCoord s;
+  for (int i = 1; i < sondados->N; i++)
+  {
+    s = sondados->pq[i];
+    LOG("(%ld, %ld) -> %ld, ", s.coord.x, s.coord.y, s.pontos);
+  }
+  LOG("\n");
+}
+
 
 #endif
