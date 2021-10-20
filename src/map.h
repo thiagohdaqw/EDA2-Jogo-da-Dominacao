@@ -38,8 +38,8 @@ void map_inicializa(Map *map)
 {
   map->capacity = MAP_INITIAL_CAPACITY;
   map->size = 0;
-  //map->coords = coords;
-  map->coords = calloc(MAP_INITIAL_CAPACITY, sizeof(MapCoord));
+  map->coords = coords;
+  //map->coords = calloc(MAP_INITIAL_CAPACITY, sizeof(MapCoord));
 }
 
 void map_destruir(Map *map) {
@@ -99,16 +99,20 @@ long int map_obter_indice_livre(Map *map, MapCoord item)
   return map_obter_indice_livre(map, item);
 }
 
-long int map_inserir(Map *map, MapCoord item)
-{
+void map_inserir_indice(Map *map, MapCoord item, long int indice){
+  map->coords[indice] = item;
+  map->size++;
+
   if (map->size*1.0/map->capacity >= 0.75) {
     map_mudar_capacidade_e_reinserir(map, map->capacity*2+1);
   }
+}
 
+long int map_inserir(Map *map, MapCoord item)
+{
   long int indice = map_obter_indice_livre(map, item);
 
-  map->coords[indice] = item;
-  map->size++;
+  map_inserir_indice(map, item, indice);
   return indice;
 }
 

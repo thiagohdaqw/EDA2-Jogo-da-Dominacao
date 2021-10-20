@@ -159,3 +159,10 @@ test case 1234 -100 -100 8 | tempo  0,004s |  pontuação 275351 | colisoes 0 | 
 test case 666 -100 -100 100 | tempo  0,006s |  pontuação 6264521 | colisoes 5 | resize 0 
 test case 666 200 200 150 | tempo  0,007s |  pontuação 8956770 | colisoes 5 | resize 0 
 test case 669 -200 200 300 | tempo  0,011s |  pontuação 18439349 | colisoes 0 | resize 0 
+
+[2021-10-20 08:42:42] Refatorando map_inserir
+test case 777 5 5 8 | tempo  0,004s |  pontuação 355959 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,003s |  pontuação 275351 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,007s |  pontuação 6264521 | colisoes 5 | resize 0 
+test case 666 200 200 150 | tempo  0,011s |  pontuação 8956770 | colisoes 5 | resize 0 
+test case 669 -200 200 300 | tempo  0,015s |  pontuação 18439349 | colisoes 0 | resize 0 

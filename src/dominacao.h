@@ -7,15 +7,19 @@
 #include "sondados.h"
 #include "jogador.h"
 
-int sondar_coord(Map *map, MapCoord atual)
+int sondar_coord(Map *map, Coord atual)
 {
+  MapCoord sonda;
   long int indice = 0;
-  MapCoord *pesquisado = map_buscar(map, atual, &indice);
+
+  sonda.coord = atual;
+  sonda.estado = SONDADO;
+  
+  MapCoord *pesquisado = map_buscar(map, sonda, &indice);
   if (map_coord_eh_null(*pesquisado))
   {
-    PRINT("sondar %ld %ld\n", atual.coord.x, atual.coord.y);
-    pesquisado->coord = atual.coord;
-    pesquisado->estado = SONDADO;
+    PRINT("sondar %ld %ld\n", atual.x, atual.y);
+    map_inserir_indice(map, sonda, indice);
     return 1;
   }
   return 0;
@@ -25,7 +29,7 @@ int sondar_jogador(Map *map, Jogador *jogador, int *sondagem_extras, int *qtd_jo
 {
   if (jogador_esta_preso(jogador))
     return 0;
-  MapCoord atual = {0, 0, SONDADO};
+  Coord atual = {0, 0};
   int qtd_sondagem = 0;
   int sondagem_possiveis = 1 + *sondagem_extras;
   int x, y, dx, dy, t, contador;
@@ -35,8 +39,8 @@ int sondar_jogador(Map *map, Jogador *jogador, int *sondagem_extras, int *qtd_jo
 
   for (contador = 0; contador < 8 && sondagem_possiveis > 0; contador++)
   {
-    atual.coord.x = jogador->coord.x + x;
-    atual.coord.y = jogador->coord.y + y;
+    atual.x = jogador->coord.x + x;
+    atual.y = jogador->coord.y + y;
     if (sondar_coord(map, atual))
     {
       sondagem_possiveis--;
