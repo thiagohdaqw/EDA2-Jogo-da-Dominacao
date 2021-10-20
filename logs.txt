@@ -173,3 +173,11 @@ test case 1234 -100 -100 8 | tempo  0,003s |  pontuação 1691 | colisoes 0 | re
 test case 666 -100 -100 100 | tempo  0,007s |  pontuação 20160 | colisoes 3 | resize 0 
 test case 666 200 200 150 | tempo  0,008s |  pontuação 30396 | colisoes 0 | resize 0 
 test case 669 -200 200 300 | tempo  0,015s |  pontuação 56862 | colisoes 0 | resize 0 
+
+[2021-10-20 16:39:58]
+test case 777 5 5 8 | tempo  0,005s |  pontuação 1322 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,003s |  pontuação 1691 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,006s |  pontuação 20160 | colisoes 3 | resize 0 
+test case 666 200 200 150 | tempo  0,008s |  pontuação 30396 | colisoes 0 | resize 0 
+test case 669 -200 200 300 | tempo  0,011s |  pontuação 56862 | colisoes 0 | resize 0 
+test case 1000 -4000000000 -8000000000 330 | tempo  0,017s |  pontuação 63210 | colisoes 0 | resize 0 
