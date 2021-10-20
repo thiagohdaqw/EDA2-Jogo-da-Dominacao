@@ -27,8 +27,10 @@ int sondar_coord(Map *map, Coord atual)
 
 int sondar_jogador(Map *map, Jogador *jogador, int *sondagem_extras, int *qtd_jogador_preso)
 {
-  if (jogador_esta_preso(jogador))
+  if (jogador_esta_preso(jogador)){
     return 0;
+  }
+  
   Coord atual = {0, 0};
   int qtd_sondagem = 0;
   int sondagem_possiveis = 1 + *sondagem_extras;
@@ -59,7 +61,7 @@ int sondar_jogador(Map *map, Jogador *jogador, int *sondagem_extras, int *qtd_jo
   if (contador == 8)
   {
     jogador_prender(jogador);
-    *qtd_jogador_preso++;
+    (*qtd_jogador_preso)++;
   }
 
   *sondagem_extras = sondagem_possiveis;
@@ -110,7 +112,7 @@ void ler_sondagem(Map *map, Sondados *sondados)
       min_sondado = sondados_min(sondados);
       if (!less(sondado, min_sondado))
       {
-        LOG("pulou \n");
+        LOG("<<<= pulou \n");
         return;
       }
       sondados_troca_min(sondados, sondado);

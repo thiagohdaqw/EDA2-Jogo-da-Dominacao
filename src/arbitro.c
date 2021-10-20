@@ -5,7 +5,7 @@
 #define LOG(x, args...) {fprintf(stderr, x, ##args); fflush(stderr);}
 #define PRINT(x, args...) {printf(x, ##args); fflush(stdout);}
 #ifndef PTS_RANGE
-#define PTS_RANGE 100000
+#define PTS_RANGE 300
 #endif
 #ifndef DEBUG
 #define DEBUG 0
@@ -31,7 +31,7 @@ void print_relatorio_final(){
 
 long int gera_pontos(){
     int sinal = (int) pow(-1, rand()%2);
-    return sinal * ((16161 * (long int)rand())%PTS_RANGE);
+    return sinal * (rand()%PTS_RANGE);
 }
 
 void leia_relatorio_turno(int *turno, int *dominou, int *sondagem, int *jogadores, long int *colisao, long int *resize){
@@ -68,6 +68,7 @@ int main(int argc, char **argv)
     Turno = atoi(argv[4]);
 
     PRINT("%d %d %d %d\n", Li, Ci, PTS_RANGE, Turno);
+    total_pontos += PTS_RANGE;
 
     for (int t = 0; t < Turno; t++)
     {
@@ -81,11 +82,12 @@ int main(int argc, char **argv)
                 PRINT("sondagem %ld %ld %ld\n", l, c, gera_pontos());
             }   
             else{
-                PRINT("dominacao %d\n", 0);
-								if(DEBUG){
+								pontos = 0;
+                if(DEBUG){
                 	scanf("%ld", &pontos);
                 	total_pontos += pontos;
 								}
+                PRINT("dominacao %ld\n", pontos);
             }
         }
 				if(DEBUG)
