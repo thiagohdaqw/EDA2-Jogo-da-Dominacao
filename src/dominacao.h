@@ -78,8 +78,13 @@ Jogador *dominar(Map *map, Jogadores *jogadores, Sondados *sondados)
 {
   if (sondados_vazio(sondados))
     return JOGADOR_NULL;
-  Jogador *dominado = jogadores_inserir(jogadores, jogador_criar(sondados_max(sondados).coord));
+  SondCoord sond = sondados_max(sondados);
+  Jogador *dominado = jogadores_inserir(jogadores, jogador_criar(sond.coord));
   PRINT("dominar %ld %ld\n", dominado->coord.x, dominado->coord.y);
+
+  if (DEBUG)
+    PRINT("%ld\n", sond.pontos);
+
   return dominado;
 }
 

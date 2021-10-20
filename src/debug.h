@@ -7,18 +7,19 @@
     fflush(stdout);       \
   }
 
+long int qtd_colisao = 0;
+long int qtd_redimensionamento = 0;
+
 #ifndef DEBUG
-int qtd_colisao = 0;
-#define LOG(x, args...) \
-  {                     \
-  }
-#define LOG_COLISAO() \
-  {                   \
-  }
 #define DEBUG 0
+
+#define LOG(x, args...)  {}
+#define LOG_COLISAO() {}
+#define LOG_REDIMENSIONAMENTO() {}
+
 #else
-int qtd_colisao = 0;
 #define LOG_COLISAO() (qtd_colisao++)
+#define LOG_REDIMENSIONAMENTO() (qtd_redimensionamento++)
 #define LOG(x, args...)         \
   {                             \
     fprintf(stderr, x, ##args); \
@@ -26,12 +27,9 @@ int qtd_colisao = 0;
   }
 #endif
 
-void print_relatorio_final(int total_pontos, int pq_n, int pq_capacity){
-  LOG("PQn=%d PQcapacity=%d\n", pq_n, pq_capacity);
-  LOG("== Relatorio Final |")
-  LOG("pontuação: %d |", total_pontos);
-  LOG("Quantidade colisoes: %d |", qtd_colisao);
-  LOG("\n");
+void print_relatorio_final(){
+  PRINT("%ld\n", qtd_colisao);
+  PRINT("%ld\n", qtd_redimensionamento);
 }
 
 #endif // DEBUG_H_INCLUDED

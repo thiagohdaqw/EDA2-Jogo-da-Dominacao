@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include "coord.h"
+#include "debug.h"
 
 typedef enum
 {
@@ -54,6 +55,8 @@ long int gen_hash(Map *map, long int *a, int b, long int h, long int valor)
 long int hashone(Map *map, MapCoord item)
 {
   long int a = 31415, b = 27183, h = 0;
+  if(item.coord.x == item.coord.y)
+    h = gen_hash(map, &a, b, h, item.coord.x & 1 ? 2 : 1);
   h = gen_hash(map, &a, b, h, item.coord.x < 0);
   h = gen_hash(map, &a, b, h, item.coord.y < 0);
   h = gen_hash(map, &a, b, h, item.coord.x);
@@ -89,6 +92,7 @@ long int map_obter_indice_livre(Map *map, MapCoord item)
     indice = hash(map, h, h2, colisao);
     if (map_coord_eh_null(*map_obter(map, indice)))
       return indice;
+    LOG_COLISAO();
   }
 
   map_mudar_capacidade_e_reinserir(map, 2*map->capacity+1);
@@ -118,6 +122,7 @@ MapCoord *map_buscar(Map *map, MapCoord item, long int *indice)
     *indice = hash(map, h, h2, colisao);
     if (map_coord_eh_null(*map_obter(map, *indice)) || map_coord_eh_igual(*map_obter(map, *indice), item))
       return map_obter(map, *indice);
+    LOG_COLISAO();
   }
 
   map_mudar_capacidade_e_reinserir(map, 2*map->capacity+1);
@@ -137,7 +142,7 @@ void map_mudar_capacidade_e_reinserir(Map *map, long int nova_capacidade) {
 
   if(!mapa_is_static(map_antigo))
     free(map_antigo);
-  LOG("-- Redimensionando + 1\n");
+  LOG_REDIMENSIONAMENTO();
 }
 
 #endif // HASHTABLE_H_INCLUDED

@@ -152,3 +152,10 @@ test case 1234 -100 -100 8 | pontos: 1691, tempo:  0,004s, colisao: 0
 test case 666 -100 -100 100 | pontos: 19029, tempo:  0,008s, colisao: 0
 test case 666 200 200 150 | pontos: 28974, tempo:  0,011s, colisao: 0
 test case 669 -200 200 300 | pontos: 57467, tempo:  0,054s, colisao: 1776
+
+[2021-10-19 22:35:23] Organizando projeto (retirando variaveis globais)
+test case 777 5 5 8 | tempo  0,004s |  pontuação 355959 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,004s |  pontuação 275351 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,006s |  pontuação 6264521 | colisoes 5 | resize 0 
+test case 666 200 200 150 | tempo  0,007s |  pontuação 8956770 | colisoes 5 | resize 0 
+test case 669 -200 200 300 | tempo  0,011s |  pontuação 18439349 | colisoes 0 | resize 0 
