@@ -11,7 +11,7 @@ int sondar_coord(Map *map, MapCoord atual)
 {
   long int indice = 0;
   MapCoord *pesquisado = map_buscar(map, atual, &indice);
-  if (indice != MAP_COORD_INDICE_NULL && map_coord_eh_null(*pesquisado))
+  if (map_coord_eh_null(*pesquisado))
   {
     PRINT("sondar %ld %ld\n", atual.coord.x, atual.coord.y);
     pesquisado->coord = atual.coord;

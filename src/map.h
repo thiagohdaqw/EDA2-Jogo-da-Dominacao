@@ -116,14 +116,14 @@ MapCoord *map_buscar(Map *map, MapCoord item, long int *indice)
     if (map_coord_eh_null(*map_obter(map, *indice)) || map_coord_eh_igual(*map_obter(map, *indice), item))
       return map_obter(map, *indice);
   }
-  LOG("! Nao encontrou! (%ld, %ld)\n", item.coord.x, item.coord.y);
-  *indice = MAP_COORD_INDICE_NULL;
-  return NULL;
+
+  map_mudar_capacidade_e_reinserir(map, 2*map->capacity+1);
+  return map_buscar(map, item, indice);
 }
 
 void map_mudar_capacidade_e_reinserir(Map *map, long int nova_capacidade) {
   int capacidade_antiga = map->capacity;
-
+  LOG("<<< +1\n");
   MapCoord* map_antigo = map->coords;
   map->coords = (MapCoord*) calloc(nova_capacidade, sizeof(MapCoord));
 
