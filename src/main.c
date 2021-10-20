@@ -32,7 +32,8 @@ int main()
   {
     qtd_sondagem = sondar(&map, &jogadores);
     dominado = dominar(&map, &jogadores, &sondados);
-    PRINT("fimturno\n");
+    printf("fimturno\n");
+    fflush(stdout);
     ler_resposta_do_juiz(&map, &jogadores, &sondados, qtd_sondagem, dominado);
     if(DEBUG)
       print_relatorio_turno(turno, qtd_sondagem, jogadores.tamanho, !jogador_eh_null(dominado));

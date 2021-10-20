@@ -1,6 +1,7 @@
 #ifndef DOMINACAO_H_INCLUDED
 #define DOMINACAO_H_INCLUDED
 
+#include <stdio.h>
 #include "debug.h"
 #include "coord.h"
 #include "map.h"
@@ -18,7 +19,7 @@ int sondar_coord(Map *map, Coord atual)
   MapCoord *pesquisado = map_buscar(map, sonda, &indice);
   if (map_coord_eh_null(*pesquisado))
   {
-    PRINT("sondar %ld %ld\n", atual.x, atual.y);
+    printf("sondar %ld %ld\n", atual.x, atual.y);
     map_inserir_indice(map, sonda, indice);
     return 1;
   }
@@ -86,10 +87,10 @@ Jogador *dominar(Map *map, Jogadores *jogadores, Sondados *sondados)
     return JOGADOR_NULL;
   SondCoord sond = sondados_max(sondados);
   Jogador *dominado = jogadores_inserir(jogadores, jogador_criar(sond.coord));
-  PRINT("dominar %ld %ld\n", dominado->coord.x, dominado->coord.y);
+  printf("dominar %ld %ld\n", dominado->coord.x, dominado->coord.y);
 
   if (DEBUG)
-    PRINT("%ld\n", sond.pontos);
+    printf("%ld\n", sond.pontos);
 
   return dominado;
 }
