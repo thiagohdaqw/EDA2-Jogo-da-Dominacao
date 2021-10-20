@@ -24,18 +24,21 @@ typedef struct map
   long int size;
 } Map;
 
-#define MAP_INITIAL_CAPACITY 997
-#define COLISION_MAX 1995
+#define MAP_INITIAL_CAPACITY 10000
+#define COLISION_MAX 5000
 #define MAP_COORD_NULL NAO_SONDADO
 #define MAP_COORD_INDICE_NULL -1
 #define map_coord_eh_null(A) ((A).estado == MAP_COORD_NULL)
 #define map_coord_eh_igual(A, B) (coord_eh_igual((A).coord, (B).coord))
+MapCoord coords[MAP_INITIAL_CAPACITY] = {[0 ... MAP_INITIAL_CAPACITY -1] = {0, 0, NAO_SONDADO}}; 
+#define mapa_is_static(A) (A == coords)
 
 void map_inicializa(Map *map)
 {
   map->capacity = MAP_INITIAL_CAPACITY;
   map->size = 0;
-  map->coords = (MapCoord*) calloc(MAP_INITIAL_CAPACITY, sizeof(MapCoord));
+  //map->coords = coords;
+  map->coords = calloc(MAP_INITIAL_CAPACITY, sizeof(MapCoord));
 }
 
 void map_destruir(Map *map) {
@@ -123,17 +126,18 @@ MapCoord *map_buscar(Map *map, MapCoord item, long int *indice)
 
 void map_mudar_capacidade_e_reinserir(Map *map, long int nova_capacidade) {
   int capacidade_antiga = map->capacity;
-  LOG("<<< +1\n");
   MapCoord* map_antigo = map->coords;
   map->coords = (MapCoord*) calloc(nova_capacidade, sizeof(MapCoord));
-
   map->capacity = nova_capacidade;
   map->size = 0;
   for (int i = 0; i < capacidade_antiga; i++) {
     if (!map_coord_eh_null(map_antigo[i]))
       map_inserir(map, map_antigo[i]);
   }
-  free(map_antigo);
+
+  if(!mapa_is_static(map_antigo))
+    free(map_antigo);
+  LOG("-- Redimensionando + 1\n");
 }
 
 #endif // HASHTABLE_H_INCLUDED

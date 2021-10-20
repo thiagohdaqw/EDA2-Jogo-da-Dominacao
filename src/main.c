@@ -36,6 +36,6 @@ int main()
     ler_resposta_do_juiz(&map, &jogadores, &sondados, qtd_sondagem, dominado);
   }
 
-  map_destruir(&map);
+  //map_destruir(&map);
   return 0;
 }
