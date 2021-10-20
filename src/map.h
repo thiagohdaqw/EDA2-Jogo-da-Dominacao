@@ -38,8 +38,8 @@ void map_inicializa(Map *map)
 {
   map->capacity = MAP_INITIAL_CAPACITY;
   map->size = 0;
-  map->coords = coords;
-  //map->coords = calloc(MAP_INITIAL_CAPACITY, sizeof(MapCoord));
+  //map->coords = coords;
+  map->coords = calloc(MAP_INITIAL_CAPACITY, sizeof(MapCoord));
 }
 
 void map_destruir(Map *map) {
@@ -49,7 +49,7 @@ void map_destruir(Map *map) {
 long int gen_hash(Map *map, long int *a, int b, long int h, long int valor)
 {
   *a = *a * b % (map->capacity - 1);
-  return (*a * h + valor) % map->capacity;
+  return (*a * (unsigned long)h + valor) % map->capacity;
 }
 
 long int hashone(Map *map, MapCoord item)
