@@ -31,14 +31,11 @@ typedef struct map
 #define MAP_COORD_INDICE_NULL -1
 #define map_coord_eh_null(A) ((A).estado == MAP_COORD_NULL)
 #define map_coord_eh_igual(A, B) (coord_eh_igual((A).coord, (B).coord))
-MapCoord coords[MAP_INITIAL_CAPACITY] = {[0 ... MAP_INITIAL_CAPACITY -1] = {0, 0, NAO_SONDADO}}; 
-#define mapa_is_static(A) (A == coords)
 
 void map_inicializa(Map *map)
 {
   map->capacity = MAP_INITIAL_CAPACITY;
   map->size = 0;
-  //map->coords = coords;
   map->coords = calloc(MAP_INITIAL_CAPACITY, sizeof(MapCoord));
 }
 
@@ -144,8 +141,7 @@ void map_mudar_capacidade_e_reinserir(Map *map, long int nova_capacidade) {
       map_inserir(map, map_antigo[i]);
   }
 
-  if(!mapa_is_static(map_antigo))
-    free(map_antigo);
+  free(map_antigo);
   LOG_RESIZE();
 }
 
