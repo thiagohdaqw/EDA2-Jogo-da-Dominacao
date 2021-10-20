@@ -2,6 +2,7 @@
 
 BIN_PATH="./bin";
 MENSAGENS="$BIN_PATH/mensagens";
+DEBUG="-DDEBUG=${1:-1}";
 
 if [ ! -d $BIN_PATH ]; then
 	mkdir $BIN_PATH;
@@ -11,16 +12,16 @@ if [ ! -e "$MENSAGENS" ]; then
 	mkfifo $MENSAGENS;
 fi
 
-gcc -o "$BIN_PATH/arbitro" arbitro.c -g -lm
+gcc -o "$BIN_PATH/arbitro" src/arbitro.c $DEBUG -g -lm
 success=$?
 
 if [[ "$success" != "0" ]]; then
   exit 1
 fi
 
-./extract_replace.sh
+./sextract_replace.sh
 
-gcc -o "$BIN_PATH/jogador" jogador.submit.c -DDEBUG=1 -O2 -static -g
+gcc -o "$BIN_PATH/jogador" src/main.submit.c $DEBUG -O2 -static -g
 success=$?
 
 if [[ "$success" != "0" ]]; then

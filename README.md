@@ -12,8 +12,9 @@
 A todos os arquivos `.sh` devem ser dadas permissão de execução:
 
     ls *.sh | xargs chmod +x 
-    ./run.sh <RANDOM_SEED> <X_INICIAL> <Y_INICIAL> <QTD_TURNOS>
+    ./srun.sh <RANDOM_SEED> <X_INICIAL> <Y_INICIAL> <QTD_TURNOS>
 
 Por exemplo:
 
-    ./run.sh 777 5 5 8
+    ./sbuild.sh
+    ./srun.sh 777 5 5 8

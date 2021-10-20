@@ -9,13 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: 'Make sh executable'
-        run: |
-          chmod +x run.sh
-          chmod +x build.sh
-          chmod +x test.sh
       - name: 'Execute tests'
-        run: ./test.sh ci_logs.txt
+        run: ./stest.sh ci_logs.txt
       - name: 'Save log in env'
         run: |
           echo -e "LOG="$(cat ci_logs.txt)"\n" >> $GITHUB_ENV
