@@ -142,7 +142,7 @@ void map_mudar_capacidade_e_reinserir(Map *map, long int nova_capacidade) {
 
   if(!mapa_is_static(map_antigo))
     free(map_antigo);
-  LOG_REDIMENSIONAMENTO();
+  LOG_RESIZE();
 }
 
 #endif // HASHTABLE_H_INCLUDED

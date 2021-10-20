@@ -40,16 +40,4 @@ void sondados_troca_min(Sondados *sondados, SondCoord novo){
   PQchange(sondados, sondados->min);
 }
 
-void sondados_print(Sondados *sondados)
-{
-  SondCoord s;
-  for (int i = 1; i < sondados->N; i++)
-  {
-    s = sondados->pq[i];
-    LOG("(%ld, %ld) -> %ld, ", s.coord.x, s.coord.y, s.pontos);
-  }
-  LOG("\n");
-}
-
-
 #endif
