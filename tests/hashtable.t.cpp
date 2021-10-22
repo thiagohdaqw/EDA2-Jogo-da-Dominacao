@@ -6,8 +6,8 @@
 #define TEST_HASHTABLE
 extern "C" {
 #endif
-  #include "../coord.h"
-  #include "../map.h"
+  #include "../src/coord.h"
+  #include "../src/map.h"
 #ifdef TEST_HASHTABLE
 }
 #endif
@@ -91,7 +91,7 @@ TEST_CASE("ht um resize apenas pelo tamanho") {
   c.coord.x = c.coord.y = 1;
   for (i = 0; i < capacidade_inicial; i++) {
     map_buscar(&map, c, &indice);  
-    CHECK(map_coord_eh_igual(c, map[indice]));
+    CHECK(map_coord_eh_igual(c, *map_obter(&map, indice)));
     c.coord.x++; c.coord.y++;
   }
 
@@ -120,7 +120,7 @@ TEST_CASE("ht pelo menos dois resizes apenas por tamanho") {
   c.coord.x = x_inicial; c.coord.y = y_inicial;
   for (i = 0; i < x2_capacidade_inicial; i++) {
     map_buscar(&map, c, &indice);  
-    CHECK(map_coord_eh_igual(c, map[indice]));
+    CHECK(map_coord_eh_igual(c, *map_obter(&map, indice)));
     c.coord.x++; c.coord.y++;
   }
 

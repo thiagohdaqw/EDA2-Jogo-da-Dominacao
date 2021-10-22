@@ -92,29 +92,11 @@ static char str[100];
 void ler_sondagem(Map *map, Sondados *sondados)
 {
   SondCoord sondado = {0, 0, 0};
-  SondCoord min_sondado;
   int indice = 0;
 
   scanf("%s %ld %ld %ld", str, &sondado.coord.x, &sondado.coord.y, &sondado.pontos);
   LOG(">> %s %ld %ld %ld\n", str, sondado.coord.x, sondado.coord.y, sondado.pontos);
-
-  if (sondado.pontos > 0)
-  {
-    if (sondados_cheio(sondados))
-    {
-      min_sondado = sondados_min(sondados);
-      if (!less(sondado, min_sondado))
-      {
-        LOG("<<<= pulou \n");
-        return;
-      }
-      sondados_troca_min(sondados, sondado);
-    }
-    else
-    {
-      sondados_inserir(sondados, sondado);
-    }
-  }
+  sondados_inserir(sondados, sondado);
 }
 
 void ler_resposta_do_juiz(Map *map, Jogadores *jogadores, Sondados *sondados, int qtd_sondagem, Jogador *dominado)

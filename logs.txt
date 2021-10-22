@@ -222,3 +222,113 @@ test case 1000 -4000000000 -8000000000 330 | tempo  0,017s |  pontuação 81290 
 test case 1000 5000000000 -100000000 310 | tempo  0,016s |  pontuação 76085 | colisoes 0 | resize 0 
 test case 4000 -5000000000 100000000 600 | tempo  0,025s |  pontuação 147125 | colisoes 0 | resize 0 
 test case 64594 -5000000000 100000000 5000 | tempo  0,233s |  pontuação 1203188 | colisoes 24119 | resize 2 
+
+[2021-10-22 10:47:52]
+test case 777 5 5 8 | tempo  0,008s |  pontuação 1752 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,004s |  pontuação 1983 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,011s |  pontuação 25817 | colisoes 0 | resize 0 
+test case 666 200 200 150 | tempo  0,012s |  pontuação 38833 | colisoes 1 | resize 0 
+test case 669 -200 200 300 | tempo  0,016s |  pontuação 72059 | colisoes 0 | resize 0 
+test case 1000 -4000000000 -8000000000 330 | tempo  0,022s |  pontuação 81290 | colisoes 0 | resize 0 
+test case 1000 5000000000 -100000000 310 | tempo  0,023s |  pontuação 76085 | colisoes 0 | resize 0 
+test case 4000 -5000000000 100000000 600 | tempo  0,034s |  pontuação 147125 | colisoes 0 | resize 0 
+test case 64594 -5000000000 100000000 5000 | tempo  0,232s |  pontuação 1203188 | colisoes 24119 | resize 2 
+
+[2021-10-22 10:57:46]
+test case 777 5 5 8 | tempo  0,004s |  pontuação 1752 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,003s |  pontuação 1983 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,006s |  pontuação 25817 | colisoes 0 | resize 0 
+test case 666 200 200 150 | tempo  0,009s |  pontuação 38833 | colisoes 1 | resize 0 
+test case 669 -200 200 300 | tempo  0,013s |  pontuação 72059 | colisoes 0 | resize 0 
+test case 1000 -4000000000 -8000000000 330 | tempo  0,015s |  pontuação 81290 | colisoes 0 | resize 0 
+test case 1000 5000000000 -100000000 310 | tempo  0,014s |  pontuação 76085 | colisoes 0 | resize 0 
+test case 4000 -5000000000 100000000 600 | tempo  0,027s |  pontuação 147125 | colisoes 0 | resize 0 
+test case 64594 -5000000000 100000000 5000 | tempo  0,215s |  pontuação 1203188 | colisoes 24119 | resize 2 
+
+[2021-10-22 10:58:03]
+test case 777 5 5 8 | tempo  0,004s |  pontuação 1752 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,004s |  pontuação 1983 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,009s |  pontuação 25817 | colisoes 0 | resize 0 
+test case 666 200 200 150 | tempo  0,010s |  pontuação 38833 | colisoes 1 | resize 0 
+test case 669 -200 200 300 | tempo  0,019s |  pontuação 72059 | colisoes 0 | resize 0 
+test case 1000 -4000000000 -8000000000 330 | tempo  0,016s |  pontuação 81290 | colisoes 0 | resize 0 
+test case 1000 5000000000 -100000000 310 | tempo  0,015s |  pontuação 76085 | colisoes 0 | resize 0 
+test case 4000 -5000000000 100000000 600 | tempo  0,029s |  pontuação 147125 | colisoes 0 | resize 0 
+test case 64594 -5000000000 100000000 5000 | tempo  0,205s |  pontuação 1203188 | colisoes 24119 | resize 2 
+
+[2021-10-22 10:58:28]
+test case 777 5 5 8 | tempo  0,003s |  pontuação 1752 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,003s |  pontuação 1983 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,006s |  pontuação 25817 | colisoes 0 | resize 0 
+test case 666 200 200 150 | tempo  0,008s |  pontuação 38833 | colisoes 1 | resize 0 
+test case 669 -200 200 300 | tempo  0,015s |  pontuação 72059 | colisoes 0 | resize 0 
+test case 1000 -4000000000 -8000000000 330 | tempo  0,015s |  pontuação 81290 | colisoes 0 | resize 0 
+test case 1000 5000000000 -100000000 310 | tempo  0,014s |  pontuação 76085 | colisoes 0 | resize 0 
+test case 4000 -5000000000 100000000 600 | tempo  0,024s |  pontuação 147125 | colisoes 0 | resize 0 
+test case 64594 -5000000000 100000000 5000 | tempo  0,208s |  pontuação 1203188 | colisoes 24119 | resize 2 
+
+[2021-10-22 11:32:41]
+test case 777 5 5 8 | tempo  0,003s |  pontuação 1322 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,003s |  pontuação 1691 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,007s |  pontuação 20388 | colisoes 0 | resize 0 
+test case 666 200 200 150 | tempo  0,009s |  pontuação 31293 | colisoes 0 | resize 0 
+test case 669 -200 200 300 | tempo  0,013s |  pontuação 55062 | colisoes 0 | resize 0 
+test case 1000 -4000000000 -8000000000 330 | tempo  0,014s |  pontuação 64204 | colisoes 0 | resize 0 
+test case 1000 5000000000 -100000000 310 | tempo  0,014s |  pontuação 61122 | colisoes 0 | resize 0 
+test case 4000 -5000000000 100000000 600 | tempo  0,024s |  pontuação 109269 | colisoes 0 | resize 0 
+test case 64594 -5000000000 100000000 5000 | tempo  0,201s |  pontuação 917249 | colisoes 17510 | resize 2 
+
+[2021-10-22 11:39:43]
+test case 777 5 5 8 | tempo  0,007s |  pontuação 1322 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,005s |  pontuação 1691 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,013s |  pontuação 20388 | colisoes 0 | resize 0 
+test case 666 200 200 150 | tempo  0,011s |  pontuação 31293 | colisoes 0 | resize 0 
+test case 669 -200 200 300 | tempo  0,025s |  pontuação 55062 | colisoes 0 | resize 0 
+test case 1000 -4000000000 -8000000000 330 | tempo  0,025s |  pontuação 64204 | colisoes 0 | resize 0 
+test case 1000 5000000000 -100000000 310 | tempo  0,031s |  pontuação 61122 | colisoes 0 | resize 0 
+test case 4000 -5000000000 100000000 600 | tempo  0,041s |  pontuação 109269 | colisoes 0 | resize 0 
+test case 64594 -5000000000 100000000 5000 | tempo  0,301s |  pontuação 917249 | colisoes 17510 | resize 2 
+
+[2021-10-22 11:40:13]
+test case 777 5 5 8 | tempo  0,018s |  pontuação 1322 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,013s |  pontuação 1691 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,028s |  pontuação 20388 | colisoes 0 | resize 0 
+test case 666 200 200 150 | tempo  0,016s |  pontuação 31293 | colisoes 0 | resize 0 
+test case 669 -200 200 300 | tempo  0,016s |  pontuação 55062 | colisoes 0 | resize 0 
+test case 1000 -4000000000 -8000000000 330 | tempo  0,050s |  pontuação 64204 | colisoes 0 | resize 0 
+test case 1000 5000000000 -100000000 310 | tempo  0,020s |  pontuação 61122 | colisoes 0 | resize 0 
+test case 4000 -5000000000 100000000 600 | tempo  0,051s |  pontuação 109269 | colisoes 0 | resize 0 
+test case 64594 -5000000000 100000000 5000 | tempo  0,267s |  pontuação 917249 | colisoes 17510 | resize 2 
+
+[2021-10-22 11:40:50]
+test case 777 5 5 8 | tempo  0,017s |  pontuação 1752 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,015s |  pontuação 1954 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,009s |  pontuação 23173 | colisoes 0 | resize 0 
+test case 666 200 200 150 | tempo  0,014s |  pontuação 35095 | colisoes 1 | resize 0 
+test case 669 -200 200 300 | tempo  0,021s |  pontuação 64629 | colisoes 0 | resize 0 
+test case 1000 -4000000000 -8000000000 330 | tempo  0,036s |  pontuação 74640 | colisoes 0 | resize 0 
+test case 1000 5000000000 -100000000 310 | tempo  0,017s |  pontuação 70408 | colisoes 0 | resize 0 
+test case 4000 -5000000000 100000000 600 | tempo  0,037s |  pontuação 136324 | colisoes 0 | resize 0 
+test case 64594 -5000000000 100000000 5000 | tempo  0,354s |  pontuação 1127429 | colisoes 22659 | resize 2 
+
+[2021-10-22 11:41:04]
+test case 777 5 5 8 | tempo  0,014s |  pontuação 1752 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,008s |  pontuação 1983 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,013s |  pontuação 25763 | colisoes 0 | resize 0 
+test case 666 200 200 150 | tempo  0,013s |  pontuação 38677 | colisoes 1 | resize 0 
+test case 669 -200 200 300 | tempo  0,018s |  pontuação 72059 | colisoes 0 | resize 0 
+test case 1000 -4000000000 -8000000000 330 | tempo  0,023s |  pontuação 81290 | colisoes 0 | resize 0 
+test case 1000 5000000000 -100000000 310 | tempo  0,020s |  pontuação 76085 | colisoes 0 | resize 0 
+test case 4000 -5000000000 100000000 600 | tempo  0,035s |  pontuação 147125 | colisoes 0 | resize 0 
+test case 64594 -5000000000 100000000 5000 | tempo  0,318s |  pontuação 1203188 | colisoes 24119 | resize 2 
+
+[2021-10-22 11:48:35]
+test case 777 5 5 8 | tempo  0,004s |  pontuação 1752 | colisoes 0 | resize 0 
+test case 1234 -100 -100 8 | tempo  0,010s |  pontuação 1983 | colisoes 0 | resize 0 
+test case 666 -100 -100 100 | tempo  0,011s |  pontuação 25817 | colisoes 0 | resize 0 
+test case 666 200 200 150 | tempo  0,009s |  pontuação 38833 | colisoes 1 | resize 0 
+test case 669 -200 200 300 | tempo  0,016s |  pontuação 72059 | colisoes 0 | resize 0 
+test case 1000 -4000000000 -8000000000 330 | tempo  0,026s |  pontuação 81290 | colisoes 0 | resize 0 
+test case 1000 5000000000 -100000000 310 | tempo  0,020s |  pontuação 76085 | colisoes 0 | resize 0 
+test case 4000 -5000000000 100000000 600 | tempo  0,043s |  pontuação 147125 | colisoes 0 | resize 0 
+test case 64594 -5000000000 100000000 5000 | tempo  0,291s |  pontuação 1203188 | colisoes 24119 | resize 2 

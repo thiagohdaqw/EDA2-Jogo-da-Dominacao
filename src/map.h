@@ -36,7 +36,7 @@ void map_inicializa(Map *map)
 {
   map->capacity = MAP_INITIAL_CAPACITY;
   map->size = 0;
-  map->coords = calloc(MAP_INITIAL_CAPACITY, sizeof(MapCoord));
+  map->coords = (MapCoord*)calloc(MAP_INITIAL_CAPACITY, sizeof(MapCoord));
 }
 
 void map_destruir(Map *map) {

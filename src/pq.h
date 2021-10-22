@@ -56,7 +56,7 @@ int fixDown(struct pq_st *PQ, int K, int N)
 void PQinit(struct pq_st *PQ, int maxN)
 {
   PQ->capacity = maxN;
-  PQ->pq = malloc(sizeof(Item) * (PQ->capacity + 1));
+  PQ->pq = (Item *)malloc(sizeof(Item) * (PQ->capacity + 1));
   PQ->N = 0;
   PQ->min = 0;
 }

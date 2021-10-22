@@ -5,12 +5,11 @@
 #include "sondcoord.h"
 #include "pq.h"
 
-
 typedef struct pq_st Sondados;
 
 void sondados_inicializa(Sondados *sondados, int max)
 {
-  PQinit(sondados, max+1);
+  PQinit(sondados, max + 1);
 }
 
 int sondados_vazio(Sondados *sondados)
@@ -18,7 +17,8 @@ int sondados_vazio(Sondados *sondados)
   return PQempty(sondados);
 }
 
-int sondados_cheio(Sondados *sondados){
+int sondados_cheio(Sondados *sondados)
+{
   return PQfull(sondados);
 }
 
@@ -27,17 +27,33 @@ SondCoord sondados_min(Sondados *sondados)
   return PQmin(sondados);
 }
 
-SondCoord sondados_max(Sondados *sondados){
+SondCoord sondados_max(Sondados *sondados)
+{
   return PQdelMax(sondados);
 }
 
-void sondados_inserir(Sondados *sondados, SondCoord novo){
-  PQinsert(sondados, novo);
-}
-
-void sondados_troca_min(Sondados *sondados, SondCoord novo){
+void sondados_troca_min(Sondados *sondados, SondCoord novo)
+{
   sondados->pq[sondados->min] = novo;
   PQchange(sondados, sondados->min);
+}
+
+void sondados_inserir(Sondados *sondados, SondCoord novo)
+{
+  if (novo.pontos > 0)
+  {
+    if (sondados_cheio(sondados))
+    {
+      SondCoord min_sondado = sondados_min(sondados);
+      if (!less(novo, min_sondado))
+      {
+        return;
+      }
+      sondados_troca_min(sondados, novo);
+    }
+    else
+      PQinsert(sondados, novo);
+  }
 }
 
 #endif
