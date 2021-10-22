@@ -27,6 +27,7 @@ int sondar_coord(Map *map, Coord atual)
 }
 
 typedef Coord Direcao;
+#define DIRECAO_TAM 8
 #define LU {-1, -1}
 #define MU {-1,  0}
 #define RU {-1,  1}
@@ -41,16 +42,15 @@ int sondar_jogador(Map *map, Jogador *jogador, int *sondagem_extras, int *qtd_jo
   if (jogador_esta_preso(jogador)){
     return 0;
   }
-  Direcao direcoes[8] = {RU, LU, UL, UR, MR, MU, ML, UM};
+  Direcao direcoes[DIRECAO_TAM] = {RU, LU, UL, UR, MR, MU, ML, UM};
   Coord atual = {0, 0};
   int qtd_sondagem = 0;
   int sondagem_possiveis = 1 + *sondagem_extras;
-  int contador;
 
-  for (contador = 0; contador < 8 && sondagem_possiveis > 0; contador++)
+  for (; jogador->contador_sondagem < DIRECAO_TAM && sondagem_possiveis > 0; jogador->contador_sondagem++)
   {
-    atual.x = jogador->coord.x + direcoes[contador].x;
-    atual.y = jogador->coord.y + direcoes[contador].y;
+    atual.x = jogador->coord.x + direcoes[jogador->contador_sondagem].x;
+    atual.y = jogador->coord.y + direcoes[jogador->contador_sondagem].y;
     if (sondar_coord(map, atual))
     {
       sondagem_possiveis--;
@@ -58,7 +58,8 @@ int sondar_jogador(Map *map, Jogador *jogador, int *sondagem_extras, int *qtd_jo
     }
   }
 
-  if (contador == 8)
+
+  if (jogador->contador_sondagem >= DIRECAO_TAM)
   {
     jogador_prender(jogador);
     (*qtd_jogador_preso)++;

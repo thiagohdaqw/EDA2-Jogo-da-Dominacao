@@ -8,6 +8,7 @@
 typedef struct jogador{
   Coord coord;
   int esta_preso;
+  int contador_sondagem;
 }Jogador;
 
 typedef struct jogadores{
@@ -43,6 +44,7 @@ Jogador jogador_criar(Coord coord){
   Jogador novo;
   novo.esta_preso = 0;
   novo.coord = coord;
+  novo.contador_sondagem = 0;
   return novo;
 }
 
