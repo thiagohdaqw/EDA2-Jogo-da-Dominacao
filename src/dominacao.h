@@ -27,13 +27,21 @@ int sondar_coord(Map *map, Coord atual)
 }
 
 typedef Coord Direcao;
+#define LU {-1, -1}
+#define MU {-1,  0}
+#define RU {-1,  1}
+#define ML { 0, -1}
+#define MR { 0,  1}
+#define UL { 1, -1}
+#define UM { 1,  0}
+#define UR { 1,  1}
 
 int sondar_jogador(Map *map, Jogador *jogador, int *sondagem_extras, int *qtd_jogador_preso)
 {
   if (jogador_esta_preso(jogador)){
     return 0;
   }
-  Direcao direcoes[8] = {{-1, 1}, {-1, -1}, {1, -1}, {1, 1}, {0, 1}, {-1, 0}, {0, -1}, {1, 0}};
+  Direcao direcoes[8] = {UR, UL, RU, LU, ML, MR, UM, MU};
   Coord atual = {0, 0};
   int qtd_sondagem = 0;
   int sondagem_possiveis = 1 + *sondagem_extras;
