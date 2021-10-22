@@ -42,7 +42,7 @@ int sondar_jogador(Map *map, Jogador *jogador, int *sondagem_extras, int *qtd_jo
   if (jogador_esta_preso(jogador)){
     return 0;
   }
-  Direcao direcoes[DIRECAO_TAM] = {RU, LU, UL, UR, MR, MU, ML, UM};
+  Direcao direcoes[DIRECAO_TAM] = {RU, UR, LU, MR, MU, UM, ML, UL};
   Coord atual = {0, 0};
   int qtd_sondagem = 0;
   int sondagem_possiveis = 1 + *sondagem_extras;
@@ -57,7 +57,6 @@ int sondar_jogador(Map *map, Jogador *jogador, int *sondagem_extras, int *qtd_jo
       qtd_sondagem++;
     }
   }
-
 
   if (jogador->contador_sondagem >= DIRECAO_TAM)
   {

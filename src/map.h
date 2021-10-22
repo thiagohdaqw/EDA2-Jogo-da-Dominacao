@@ -25,8 +25,8 @@ typedef struct map
   long int size;
 } Map;
 
-#define MAP_INITIAL_CAPACITY 9973
-#define COLISION_MAX 5000
+#define MAP_INITIAL_CAPACITY 4999
+#define COLISION_MAX 2000
 #define MAP_COORD_NULL NAO_SONDADO
 #define MAP_COORD_INDICE_NULL -1
 #define map_coord_eh_null(A) ((A).estado == MAP_COORD_NULL)
