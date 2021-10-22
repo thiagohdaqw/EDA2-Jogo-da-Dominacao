@@ -26,37 +26,28 @@ int sondar_coord(Map *map, Coord atual)
   return 0;
 }
 
+typedef Coord Direcao;
+
 int sondar_jogador(Map *map, Jogador *jogador, int *sondagem_extras, int *qtd_jogador_preso)
 {
   if (jogador_esta_preso(jogador)){
     return 0;
   }
-  
+  Direcao direcoes[8] = {{-1, 1}, {-1, -1}, {1, -1}, {1, 1}, {0, 1}, {-1, 0}, {0, -1}, {1, 0}};
   Coord atual = {0, 0};
   int qtd_sondagem = 0;
   int sondagem_possiveis = 1 + *sondagem_extras;
-  int x, y, dx, dy, t, contador;
-
-  x = dx = 1;
-  y = dy = 0;
+  int contador;
 
   for (contador = 0; contador < 8 && sondagem_possiveis > 0; contador++)
   {
-    atual.x = jogador->coord.x + x;
-    atual.y = jogador->coord.y + y;
+    atual.x = jogador->coord.x + direcoes[contador].x;
+    atual.y = jogador->coord.y + direcoes[contador].y;
     if (sondar_coord(map, atual))
     {
       sondagem_possiveis--;
       qtd_sondagem++;
     }
-    if ((x == y) || ((x < 0) && (x == -y)) || ((x > 0) && (x == 1 - y)))
-    {
-      t = dx;
-      dx = -dy;
-      dy = t;
-    }
-    x += dx;
-    y += dy;
   }
 
   if (contador == 8)
@@ -75,7 +66,8 @@ int sondar(Map *map, Jogadores *jogadores)
   int sondagem = 0, sondagem_max = jogadores->tamanho;
   int sondagem_extras = qtd_jogador_preso;
 
-  for (int i = jogadores->tamanho - 1; i >= 0 && sondagem < sondagem_max; i--)
+  // for (int i = jogadores->tamanho-1; i >= 0 && sondagem < sondagem_max; i--)
+  for(int i = 0; i < jogadores->tamanho && sondagem < sondagem_max; i++)
     sondagem += sondar_jogador(map, jogadores_obter(jogadores, i), &sondagem_extras, &qtd_jogador_preso);
 
   return sondagem;

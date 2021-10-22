@@ -10,7 +10,7 @@ typedef struct pq_st Sondados;
 
 void sondados_inicializa(Sondados *sondados, int max)
 {
-  PQinit(sondados, max);
+  PQinit(sondados, max+1);
 }
 
 int sondados_vazio(Sondados *sondados)

@@ -31,7 +31,7 @@ void print_relatorio_final(){
 
 long int gera_pontos(){
     int sinal = (int) pow(-1, rand()%2);
-    return sinal * (rand()%PTS_RANGE);
+    return (rand()%PTS_RANGE);
 }
 
 void leia_relatorio_turno(int *turno, int *dominou, int *sondagem, int *jogadores, long int *colisao, long int *resize){
