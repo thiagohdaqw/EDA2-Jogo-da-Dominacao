@@ -16,7 +16,7 @@ int main()
   Map map;
   Sondados sondados;
   Jogadores jogadores;
-  Direcao direcoes[DIRECAO_TAM] = {UR, LU, UL, RU, UM, MR, ML, MU};
+  Direcao direcoes[DIRECAO_TAM] = {LU, UR, UL, RU, UM, MR, ML, MU};
 
   Jogador jogador_inicial = {0, 0, 0};
   Jogador *dominado = JOGADOR_NULL;
