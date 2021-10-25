@@ -40,7 +40,6 @@ int main()
     printf("fimturno\n");
     fflush(stdout);
     ler_resposta_do_juiz(&map, &jogadores, &sondados, qtd_sondagem, dominado, direcoes, eh_inicio_jogo(turno, limite_turnos));
-    LOG("SOND-N=%d\n", sondados.N);
     if(DEBUG)
       print_relatorio_turno(turno, qtd_sondagem, jogadores.tamanho, !jogador_eh_null(dominado));
   }

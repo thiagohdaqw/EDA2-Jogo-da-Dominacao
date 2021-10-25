@@ -61,9 +61,11 @@ long int hashone(Map *map, MapCoord item)
   return h;
 }
 
-long int hashtwo(Map *map, long int h)
-{
-  return (16161 * h) % map->capacity;
+long int hashtwo(Map *map, MapCoord item){
+  long int x = item.coord.x;
+  long int y = item.coord.y;
+  long int tmp = ( y +  ((x+1)/2));
+  return (16161*(x + ( tmp * (unsigned long)tmp))) % (map->capacity-1) + 1;
 }
 
 long int hash(Map *map, long int h1, long int h2, int i)
@@ -82,7 +84,7 @@ long int map_obter_indice_livre(Map *map, MapCoord item)
 {
   long int indice = 0;
   long int h = hashone(map, item);
-  long int h2 = hashtwo(map, h);
+  long int h2 = hashtwo(map, item);
   long int colisao = 0;
   for (colisao = 0; colisao < COLISION_MAX; colisao++)
   {
@@ -116,7 +118,7 @@ long int map_inserir(Map *map, MapCoord item)
 MapCoord *map_buscar(Map *map, MapCoord item, long int *indice)
 {
   long int h = hashone(map, item);
-  long int h2 = hashtwo(map, h);
+  long int h2 = hashtwo(map, item);
 
   for (int colisao = 0; colisao < COLISION_MAX; colisao++)
   {
@@ -140,7 +142,6 @@ void map_mudar_capacidade_e_reinserir(Map *map, long int nova_capacidade) {
     if (!map_coord_eh_null(map_antigo[i]))
       map_inserir(map, map_antigo[i]);
   }
-
   free(map_antigo);
   LOG_RESIZE();
 }
