@@ -9,5 +9,4 @@ typedef struct Coord
 } Coord;
 
 #define coord_eh_igual(A, B) ((A).x == (B).x && (A).y == (B).y)
-
 #endif // COORD_H_INCLUDED

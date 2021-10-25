@@ -37,12 +37,11 @@ typedef Coord Direcao;
 #define UM { 1,  0}
 #define UR { 1,  1}
 
-int sondar_jogador(Map *map, Jogador *jogador, int *sondagem_extras, int *qtd_jogador_preso)
+int sondar_jogador(Map *map, Jogador *jogador, Direcao *direcoes, int *sondagem_extras, int *qtd_jogador_preso)
 {
   if (jogador_esta_preso(jogador)){
     return 0;
   }
-  Direcao direcoes[DIRECAO_TAM] = {RU, UR, LU, MR, MU, UM, ML, UL};
   Coord atual = {0, 0};
   int qtd_sondagem = 0;
   int sondagem_possiveis = 1 + *sondagem_extras;
@@ -68,7 +67,7 @@ int sondar_jogador(Map *map, Jogador *jogador, int *sondagem_extras, int *qtd_jo
   return qtd_sondagem;
 }
 
-int sondar(Map *map, Jogadores *jogadores)
+int sondar(Map *map, Jogadores *jogadores, Direcao *direcoes)
 {
   static int qtd_jogador_preso = 0;
   int sondagem = 0, sondagem_max = jogadores->tamanho;
@@ -76,9 +75,15 @@ int sondar(Map *map, Jogadores *jogadores)
 
   // for (int i = jogadores->tamanho-1; i >= 0 && sondagem < sondagem_max; i--)
   for(int i = 0; i < jogadores->tamanho && sondagem < sondagem_max; i++)
-    sondagem += sondar_jogador(map, jogadores_obter(jogadores, i), &sondagem_extras, &qtd_jogador_preso);
+    sondagem += sondar_jogador(map, jogadores_obter(jogadores, i), direcoes, &sondagem_extras, &qtd_jogador_preso);
 
   return sondagem;
+}
+
+Jogador *dominar_coord(Jogadores *jogadores, Coord coord){
+  Jogador *dominado = jogadores_inserir(jogadores, jogador_criar(coord));
+  printf("dominar %ld %ld\n", dominado->coord.x, dominado->coord.y);
+  return dominado;
 }
 
 Jogador *dominar(Map *map, Jogadores *jogadores, Sondados *sondados)
@@ -86,8 +91,7 @@ Jogador *dominar(Map *map, Jogadores *jogadores, Sondados *sondados)
   if (sondados_vazio(sondados))
     return JOGADOR_NULL;
   SondCoord sond = sondados_max(sondados);
-  Jogador *dominado = jogadores_inserir(jogadores, jogador_criar(sond.coord));
-  printf("dominar %ld %ld\n", dominado->coord.x, dominado->coord.y);
+  Jogador *dominado = dominar_coord(jogadores, sond.coord);
 
   if (DEBUG)
     printf("%ld\n", sond.pontos);
@@ -95,22 +99,46 @@ Jogador *dominar(Map *map, Jogadores *jogadores, Sondados *sondados)
   return dominado;
 }
 
+Jogador *dominar_inicial(Map *map, Jogadores *jogadores, Direcao *direcoes, int turno){
+  if(turno == 0) return JOGADOR_NULL;
+  Coord coord;
+  coord.x = jogadores_obter(jogadores, 0)->coord.x + direcoes[turno-1].x;
+  coord.y = jogadores_obter(jogadores, 0)->coord.y + direcoes[turno-1].y;
+  return dominar_coord(jogadores, coord);
+}
+
+int eh_inicio_jogo(int turno, int limite_turnos){
+  return turno <= 4 && limite_turnos > 10;
+}
+
+int coord_eh_adjacente_jogador_inicial(Coord coord, Jogador *jogador_inicial, Direcao *direcoes, int contador){
+  for(int i = 0; i < contador; i++){
+    if(coord.x == jogador_inicial->coord.x + direcoes[i].x &&
+        coord.y == jogador_inicial->coord.y + direcoes[i].y)
+      return 1;
+  }
+  return 0;
+}
+
 static char str[100];
 
-void ler_sondagem(Map *map, Sondados *sondados)
+void ler_sondagem(Map *map, Sondados *sondados, Jogadores *jogadores, Direcao *direcoes, int eh_inicio_jogo)
 {
   SondCoord sondado = {0, 0, 0};
   int indice = 0;
 
   scanf("%s %ld %ld %ld", str, &sondado.coord.x, &sondado.coord.y, &sondado.pontos);
   LOG(">> %s %ld %ld %ld\n", str, sondado.coord.x, sondado.coord.y, sondado.pontos);
-  sondados_inserir(sondados, sondado);
+  if(!eh_inicio_jogo)
+    sondados_inserir(sondados, sondado);
+  else if(!coord_eh_adjacente_jogador_inicial(sondado.coord, jogadores_obter(jogadores, 0), direcoes, 4))
+    sondados_inserir(sondados, sondado);
 }
 
-void ler_resposta_do_juiz(Map *map, Jogadores *jogadores, Sondados *sondados, int qtd_sondagem, Jogador *dominado)
+void ler_resposta_do_juiz(Map *map, Jogadores *jogadores, Sondados *sondados, int qtd_sondagem, Jogador *dominado, Direcao *direcoes, int eh_inicio_jogo)
 {
   for (int j = 0; j < qtd_sondagem; j++)
-    ler_sondagem(map, sondados);
+    ler_sondagem(map, sondados, jogadores, direcoes, eh_inicio_jogo);
 
   if (!jogador_eh_null(dominado))
   {

@@ -16,6 +16,7 @@ int main()
   Map map;
   Sondados sondados;
   Jogadores jogadores;
+  Direcao direcoes[DIRECAO_TAM] = {UR, LU, UL, RU, UM, MR, ML, MU};
 
   Jogador jogador_inicial = {0, 0, 0};
   Jogador *dominado = JOGADOR_NULL;
@@ -30,11 +31,16 @@ int main()
 
   for (int turno = 0; turno < limite_turnos; turno++)
   {
-    qtd_sondagem = sondar(&map, &jogadores);
-    dominado = dominar(&map, &jogadores, &sondados);
+    qtd_sondagem = sondar(&map, &jogadores, direcoes);
+    if(eh_inicio_jogo(turno, limite_turnos)){
+      dominado = dominar_inicial(&map, &jogadores, direcoes, turno);
+    }else{
+      dominado = dominar(&map, &jogadores, &sondados);
+    }
     printf("fimturno\n");
     fflush(stdout);
-    ler_resposta_do_juiz(&map, &jogadores, &sondados, qtd_sondagem, dominado);
+    ler_resposta_do_juiz(&map, &jogadores, &sondados, qtd_sondagem, dominado, direcoes, eh_inicio_jogo(turno, limite_turnos));
+    LOG("SOND-N=%d\n", sondados.N);
     if(DEBUG)
       print_relatorio_turno(turno, qtd_sondagem, jogadores.tamanho, !jogador_eh_null(dominado));
   }
