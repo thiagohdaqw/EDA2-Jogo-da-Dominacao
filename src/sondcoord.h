@@ -13,6 +13,7 @@ typedef struct SondCoord
 #define Item SondCoord
 #define pq_key(A) ((A).pontos)
 #define less(A, B) (pq_key(A) < pq_key(B))
+#define equal(A, B) (pq_key(A) < pq_key(B))
 
 
 #endif // SONDCOORD_H_INCLUDED

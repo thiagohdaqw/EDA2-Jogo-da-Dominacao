@@ -40,20 +40,17 @@ void sondados_troca_min(Sondados *sondados, SondCoord novo)
 
 void sondados_inserir(Sondados *sondados, SondCoord novo)
 {
-  // if (novo.pontos > 0)
-  // {
-    if (sondados_cheio(sondados))
+  if (sondados_cheio(sondados))
+  {
+    SondCoord min_sondado = sondados_min(sondados);
+    if (!less(novo, min_sondado) && !equal(novo, min_sondado))
     {
-      SondCoord min_sondado = sondados_min(sondados);
-      if (!less(novo, min_sondado))
-      {
-        return;
-      }
-      sondados_troca_min(sondados, novo);
+      return;
     }
-    else
-      PQinsert(sondados, novo);
-  // }
+    sondados_troca_min(sondados, novo);
+  }
+  else
+    PQinsert(sondados, novo);
 }
 
 #endif
