@@ -38,18 +38,15 @@ void sondados_troca_min(Sondados *sondados, SondCoord novo)
   PQchange(sondados, sondados->min);
 }
 
+void sondados_expandir(Sondados *sondados){
+  sondados->pq = (SondCoord*) realloc(sondados->pq, 2*sondados->capacity * sizeof(SondCoord));
+  sondados->capacity = 2*sondados->capacity;
+}
+
 void sondados_inserir(Sondados *sondados, SondCoord novo)
 {
-  // if (sondados_cheio(sondados))
-  // {
-  //   SondCoord min_sondado = sondados_min(sondados);
-  //   if (!less(novo, min_sondado) && !equal(novo, min_sondado))
-  //   {
-  //     return;
-  //   }
-  //   sondados_troca_min(sondados, novo);
-  // }
-  // else
+  if(sondados->N+1 >= sondados->capacity)
+    sondados_expandir(sondados);
   PQinsert(sondados, novo);
 }
 

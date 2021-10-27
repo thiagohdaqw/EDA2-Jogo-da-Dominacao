@@ -26,7 +26,7 @@ int main()
   scanf("%ld %ld %*d %d", &jogador_inicial.coord.x, &jogador_inicial.coord.y, &limite_turnos);
 
   map_inicializa(&map);
-  sondados_inicializa(&sondados, 5*limite_turnos);
+  sondados_inicializa(&sondados, 2*limite_turnos);
   jogadores_inicializa(&map, &jogadores, jogador_inicial, limite_turnos);
 
   for (int turno = 0; turno < limite_turnos; turno++)

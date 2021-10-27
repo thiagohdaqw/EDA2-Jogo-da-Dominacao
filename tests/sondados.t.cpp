@@ -222,3 +222,44 @@ TEST_CASE("sondados troca min para valor maior que segundo minimo e menor que o 
   CHECK(sondado_eh_igual(sondados_min(&sondados), sond));
 }
 
+void print_sondados(Sondados *sondados){
+  for(int i = 0; i < sondados->capacity; i++)
+    printf("%ld ", sondados->pq[i].pontos);
+  printf("\n");
+}
+
+void popula_sondados(Sondados *sondados, int n, long pontos_inical, long incremento){
+  SondCoord sond;
+  sond.pontos = pontos_inical;
+  for(int i = 0; i < n; i++, sond.pontos += incremento){
+    sondados_inserir(sondados, sond);
+  }
+}
+
+TEST_CASE("sondados crescimento"){
+  int max = 10;
+  Sondados sondados;
+  SondCoord sond = {0, 0, 0};
+  sondados_inicializa(&sondados, max+5);
+
+  popula_sondados(&sondados, max, 0, 1);
+  print_sondados(&sondados);
+
+  popula_sondados(&sondados, 10, 10, 1);
+  print_sondados(&sondados);
+
+  printf("%d %d\n", sondados.N, sondados.capacity);
+  CHECK(1);
+}
+
+TEST_CASE("sondados resize"){
+  int max = 10;
+  Sondados sondados;
+  SondCoord sond = {0, 0, 0};
+  sondados_inicializa(&sondados, max);
+
+  popula_sondados(&sondados, max+1, 0, 1);
+
+  printf("%d %d\n", sondados.N, sondados.capacity);
+  CHECK(sondados.capacity > sondados.N);
+}
