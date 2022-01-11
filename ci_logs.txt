@@ -132,3 +132,14 @@ test case 1000 5000000000 -100000000 310 | tempo 0.017s | pontuação 74947 | co
 test case 4000 -5000000000 100000000 600 | tempo 0.030s | pontuação 146031 | colisoes 0 | resize 0
 test case 64594 -5000000000 100000000 5000 | tempo 0.293s | pontuação 1204784 | colisoes 38418 | resize 2 
 
+ [2022-01-11 21:08:55]
+test case 777 5 5 8 | tempo 0.004s | pontuação 1752 | colisoes 0 | resize 0
+test case 1234 -100 -100 8 | tempo 0.004s | pontuação 1983 | colisoes 0 | resize 0
+test case 666 -100 -100 100 | tempo 0.008s | pontuação 24592 | colisoes 0 | resize 0
+test case 666 200 200 150 | tempo 0.010s | pontuação 37429 | colisoes 1 | resize 0
+test case 669 -200 200 300 | tempo 0.017s | pontuação 71166 | colisoes 0 | resize 0
+test case 1000 -4000000000 -8000000000 330 | tempo 0.018s | pontuação 79946 | colisoes 0 | resize 0
+test case 1000 5000000000 -100000000 310 | tempo 0.017s | pontuação 74947 | colisoes 0 | resize 0
+test case 4000 -5000000000 100000000 600 | tempo 0.030s | pontuação 146031 | colisoes 0 | resize 0
+test case 64594 -5000000000 100000000 5000 | tempo 0.266s | pontuação 1204784 | colisoes 38418 | resize 2 
+
