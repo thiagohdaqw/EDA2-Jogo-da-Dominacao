@@ -65,3 +65,5 @@ jogador.submit.c
 main.submit.c
 
 /bin
+
+.vscode/
